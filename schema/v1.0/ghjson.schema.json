@@ -45,6 +45,10 @@
       "type": "object",
       "description": "Metadata about the Grasshopper document.",
       "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the definition."
+        },
         "description": {
           "type": "string",
           "description": "A description of what this definition does."
@@ -76,6 +80,13 @@
           "type": "string",
           "description": "The Grasshopper version this definition was created with."
         },
+        "tags": {
+          "type": "array",
+          "description": "List of tags for categorizing and searching definitions.",
+          "items": {
+            "type": "string"
+          }
+        },
         "dependencies": {
           "type": "array",
           "description": "List of required plugin dependencies.",
@@ -88,10 +99,19 @@
           "description": "Total number of components in the document.",
           "minimum": 0
         },
-        "parameterCount": {
+        "connectionCount": {
           "type": "integer",
-          "description": "Total number of parameters in the document.",
+          "description": "Total number of connections in the document.",
           "minimum": 0
+        },
+        "groupCount": {
+          "type": "integer",
+          "description": "Total number of groups in the document.",
+          "minimum": 0
+        },
+        "plugin": {
+          "type": "string",
+          "description": "Name of the plugin that generated this GhJSON file."
         },
         "pluginVersion": {
           "type": "string",
