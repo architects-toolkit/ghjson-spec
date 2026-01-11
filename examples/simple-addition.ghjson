@@ -1,0 +1,70 @@
+{
+  "schemaVersion": "1.0",
+  "metadata": {
+    "description": "Simple addition example with two sliders",
+    "author": "Marc Roca Musach",
+    "created": "2026-01-11T10:00:00Z"
+  },
+  "components": [
+    {
+      "name": "Number Slider",
+      "componentGuid": "57da07bd-ecab-415d-9d86-af36d7073abc",
+      "instanceGuid": "11111111-1111-1111-1111-111111111111",
+      "id": 1,
+      "pivot": "100,100",
+      "componentState": {
+        "value": "5<0,10>"
+      }
+    },
+    {
+      "name": "Number Slider",
+      "componentGuid": "57da07bd-ecab-415d-9d86-af36d7073abc",
+      "instanceGuid": "22222222-2222-2222-2222-222222222222",
+      "id": 2,
+      "pivot": "100,150",
+      "componentState": {
+        "value": "3<0,10>"
+      }
+    },
+    {
+      "name": "Addition",
+      "componentGuid": "a0d62394-a118-422d-abb3-6af115c75b25",
+      "instanceGuid": "33333333-3333-3333-3333-333333333333",
+      "id": 3,
+      "pivot": "300,125"
+    },
+    {
+      "name": "Panel",
+      "componentGuid": "59e0b89a-e487-49f8-bab8-b5bab16be14c",
+      "instanceGuid": "44444444-4444-4444-4444-444444444444",
+      "id": 4,
+      "pivot": "500,125",
+      "componentState": {
+        "multiline": false,
+        "wrap": false
+      }
+    }
+  ],
+  "connections": [
+    {
+      "from": { "id": 1, "paramName": "Number", "paramIndex": 0 },
+      "to": { "id": 3, "paramName": "A", "paramIndex": 0 }
+    },
+    {
+      "from": { "id": 2, "paramName": "Number", "paramIndex": 0 },
+      "to": { "id": 3, "paramName": "B", "paramIndex": 1 }
+    },
+    {
+      "from": { "id": 3, "paramName": "Result", "paramIndex": 0 },
+      "to": { "id": 4, "paramName": "Input", "paramIndex": 0 }
+    }
+  ],
+  "groups": [
+    {
+      "instanceGuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
+      "name": "Input Sliders",
+      "color": "255,200,220,240",
+      "members": [1, 2]
+    }
+  ]
+}

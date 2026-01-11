@@ -1,0 +1,21 @@
+# GitHub Pages configuration for GhJSON Specification
+
+title: GhJSON Specification
+description: JSON-based format for Grasshopper definitions
+baseurl: "/ghjson-spec"
+url: "https://architects-toolkit.github.io"
+
+# Build settings
+theme: jekyll-theme-minimal
+markdown: kramdown
+
+# Exclude files from build
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - node_modules
+  - vendor
+
+# Include schema files in build
+include:
+  - schema
