@@ -11,7 +11,7 @@
       "description": "The GhJSON schema version. Used for compatibility checking.",
       "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
       "default": "1.0",
-      "examples": ["1.0", "1.0.0"]
+      "examples": ["1.0", "1.1"]
     },
     "metadata": {
       "$ref": "#/$defs/documentMetadata",
@@ -21,21 +21,21 @@
       "type": "array",
       "description": "List of all components in the document. This is the primary content of a GhJSON file.",
       "items": {
-        "$ref": "#/$defs/component"
+        "$ref": "#/$defs/componentData"
       }
     },
     "connections": {
       "type": "array",
       "description": "List of all connections (wires) between component parameters.",
       "items": {
-        "$ref": "#/$defs/connectionPairing"
+        "$ref": "#/$defs/connectionData"
       }
     },
     "groups": {
       "type": "array",
       "description": "List of component groups for organization.",
       "items": {
-        "$ref": "#/$defs/group"
+        "$ref": "#/$defs/groupData"
       }
     }
   },
@@ -55,7 +55,10 @@
         },
         "version": {
           "type": "string",
-          "description": "Version of the definition itself (not the schema)."
+          "description": "Version of the definition itself (not the schema). On every save, the version should be incremented.",
+          "examples": ["1", "2", "3"],
+          "pattern": "^\\d+$",
+          "default": "1"
         },
         "author": {
           "type": "string",
@@ -109,34 +112,35 @@
           "description": "Total number of groups in the document.",
           "minimum": 0
         },
-        "plugin": {
+        "generatorName": {
           "type": "string",
-          "description": "Name of the plugin that generated this GhJSON file."
+          "description": "Name of the tool that generated this GhJSON file."
         },
-        "pluginVersion": {
+        "generatorVersion": {
           "type": "string",
-          "description": "Version of the plugin that generated this file."
+          "description": "Version of the tool that generated this file."
         }
       },
       "additionalProperties": true
     },
-    "component": {
+    "componentData": {
       "type": "object",
-      "description": "Represents a single Grasshopper component or parameter.",
-      "required": ["name", "id"],
+      "description": "Represents a single Grasshopper component or floating parameter.",
+      "oneOf": [
+        { "required": ["name", "id"] },
+        { "required": ["name", "instanceGuid"] },
+        { "required": ["componentGuid", "id"] },
+        { "required": ["componentGuid", "instanceGuid"] }
+      ],
       "properties": {
         "name": {
           "type": "string",
-          "description": "The display name of the component.",
+          "description": "The name of the component. Must match the component's name in the Grasshopper library.",
           "examples": ["Addition", "Panel", "Number Slider", "C# Script"]
         },
         "library": {
           "type": "string",
           "description": "The component library/category (e.g., 'Maths', 'Params')."
-        },
-        "type": {
-          "type": "string",
-          "description": "The component type/subcategory."
         },
         "nickName": {
           "type": "string",
@@ -154,18 +158,16 @@
         },
         "id": {
           "type": "integer",
-          "description": "Integer ID for compact reference in connections and groups. Must be unique within the document.",
+          "description": "Integer ID for compact reference in connections and groups. Must be unique within the document. Each instanceGuid is assigned a unique ID.",
           "minimum": 1
         },
-        "selected": {
-          "type": "boolean",
-          "description": "Whether the component is currently selected on the canvas."
-        },
         "pivot": {
-          "$ref": "#/$defs/pivot",
-          "description": "The position of the component on the canvas."
+          "description": "The position of a component on the Grasshopper canvas in the compact format: 'X,Y' where X and Y are floating-point numbers.",
+          "type": "string",
+          "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$",
+          "examples": ["100,200", "-50.5,300.25"]
         },
-        "params": {
+        "properties": {
           "type": "object",
           "description": "Simple key-value pairs for basic component properties.",
           "additionalProperties": true
@@ -201,41 +203,9 @@
           "items": {
             "type": "string"
           }
-        },
-        "properties": {
-          "type": "object",
-          "description": "Legacy schema-specific properties (for backward compatibility).",
-          "additionalProperties": true
         }
       },
       "additionalProperties": false
-    },
-    "pivot": {
-      "description": "The position of a component on the Grasshopper canvas. Can be either a compact string format or an object.",
-      "oneOf": [
-        {
-          "type": "string",
-          "description": "Compact format: 'X,Y' where X and Y are floating-point numbers.",
-          "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$",
-          "examples": ["100,200", "-50.5,300.25"]
-        },
-        {
-          "type": "object",
-          "description": "Object format with explicit X and Y properties.",
-          "properties": {
-            "X": {
-              "type": "number",
-              "description": "X coordinate on the canvas."
-            },
-            "Y": {
-              "type": "number",
-              "description": "Y coordinate on the canvas."
-            }
-          },
-          "required": ["X", "Y"],
-          "additionalProperties": false
-        }
-      ]
     },
     "parameterSettings": {
       "type": "object",
@@ -288,17 +258,6 @@
           "type": "string",
           "description": "Type hint for script parameters (e.g., 'int', 'double', 'Point3d')."
         },
-        "additionalSettings": {
-          "$ref": "#/$defs/additionalParameterSettings",
-          "description": "Additional parameter flags and modifiers."
-        }
-      },
-      "additionalProperties": false
-    },
-    "additionalParameterSettings": {
-      "type": "object",
-      "description": "Additional flags and modifiers for parameters.",
-      "properties": {
         "reverse": {
           "type": "boolean",
           "description": "Whether to reverse the parameter data order."
@@ -306,10 +265,6 @@
         "simplify": {
           "type": "boolean",
           "description": "Whether to simplify the parameter data tree."
-        },
-        "isPrincipal": {
-          "type": "boolean",
-          "description": "Whether this parameter is principal for matching."
         },
         "locked": {
           "type": "boolean",
@@ -333,9 +288,9 @@
         "value": {
           "description": "The primary value for the component. Format depends on component type:\n- Number Slider: '5<2,10>' (value with range)\n- Panel/Scribble: 'text content'\n- Value List: [{\"Name\":\"A\",\"Expression\":\"0\"}]\n- Script (C#/Python): 'code string'\n- Multidimensional Slider: '1.0,2.0,3.0'"
         },
-        "vbCode": {
-          "$ref": "#/$defs/vbScriptCode",
-          "description": "VB Script code with separate sections. Takes precedence over 'value' for VB Script components."
+        "selected": {
+          "type": "boolean",
+          "description": "Whether the component is currently selected on the canvas."
         },
         "locked": {
           "type": "boolean",
@@ -345,52 +300,43 @@
           "type": "boolean",
           "description": "Whether the component preview is hidden."
         },
-        "enabled": {
-          "type": "boolean",
-          "description": "Whether the component is enabled."
-        },
-        "preview": {
-          "type": "boolean",
-          "description": "Whether preview is enabled."
-        },
         "multiline": {
           "type": "boolean",
-          "description": "Whether multiline mode is enabled (panels, text components)."
+          "description": "Panel: Whether multiline mode is enabled (panels, text components)."
         },
         "wrap": {
           "type": "boolean",
-          "description": "Whether text wrapping is enabled."
+          "description": "Panel: Whether text wrapping is enabled."
         },
         "color": {
-          "type": "object",
-          "description": "Component color as RGBA values.",
-          "properties": {
-            "r": { "type": "integer", "minimum": 0, "maximum": 255 },
-            "g": { "type": "integer", "minimum": 0, "maximum": 255 },
-            "b": { "type": "integer", "minimum": 0, "maximum": 255 },
-            "a": { "type": "integer", "minimum": 0, "maximum": 255 }
-          }
+          "type": "string",
+          "description": "Panel: Component color in ARGB format (e.g., '255,128,64,255').",
+          "pattern": "^(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]),(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]),(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5]),(?:[0-9]{1,2}|1[0-9]{2}|2[0-4][0-9]|25[0-5])$"
         },
         "marshInputs": {
           "type": "boolean",
-          "description": "Whether inputs should be marshalled (script components)."
+          "description": "Script: Whether inputs should be marshalled (script components)."
         },
         "marshOutputs": {
           "type": "boolean",
-          "description": "Whether outputs should be marshalled (script components)."
+          "description": "Script: Whether outputs should be marshalled (script components)."
         },
         "showStandardOutput": {
           "type": "boolean",
-          "description": "Whether to show the standard output/error parameter (script components)."
+          "description": "Script: Whether to show the standard output/error parameter (script components)."
+        },
+        "vbCode": {
+          "$ref": "#/$defs/vbScriptCode",
+          "description": "Script: VB Script code with separate sections. Takes precedence over 'value' for VB Script components."
         },
         "listMode": {
           "type": "string",
-          "description": "Display mode for value list components.",
+          "description": "ValueList: Display mode for value list components.",
           "enum": ["DropDown", "CheckList", "Sequence", "Cycle", "Toggle"]
         },
         "selectedIndices": {
           "type": "array",
-          "description": "Indices of selected items in a value list.",
+          "description": "ValueList: Indices of selected items in a value list.",
           "items": {
             "type": "integer",
             "minimum": 0
@@ -398,7 +344,7 @@
         },
         "font": {
           "type": "object",
-          "description": "Font configuration for text components.",
+          "description": "Panel: Font configuration for text components.",
           "properties": {
             "name": { "type": "string" },
             "size": { "type": "number" },
@@ -408,40 +354,35 @@
         },
         "corners": {
           "type": "array",
-          "description": "Corner points for scribble components.",
+          "description": "Scribble: Corner points for scribble components.",
           "items": {
-            "type": "object",
-            "properties": {
-              "x": { "type": "number" },
-              "y": { "type": "number" }
-            }
+            "type": "string",
+            "description": "Corner point in format 'x,y' (e.g., '10,20')",
+            "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$"
           }
         },
         "drawIndices": {
           "type": "boolean",
-          "description": "Whether to draw indices (panels)."
+          "description": "Panel: Whether to draw indices."
         },
         "drawPaths": {
           "type": "boolean",
-          "description": "Whether to draw paths (panels)."
+          "description": "Panel: Whether to draw paths."
         },
         "alignment": {
           "type": "integer",
-          "description": "Text alignment for panels (0=Left, 1=Center, 2=Right).",
+          "description": "Panel: Text alignment (0=Left, 1=Center, 2=Right).",
           "minimum": 0,
           "maximum": 2
         },
         "bounds": {
-          "type": "object",
-          "description": "Size bounds for panels and UI components.",
-          "properties": {
-            "width": { "type": "number", "minimum": 0 },
-            "height": { "type": "number", "minimum": 0 }
-          }
+          "description": "Panel: Size bounds for resizable components. Format: 'WxH' (e.g., '100x200')",
+          "type": "string",
+          "pattern": "^\\d+(\\.\\d+)?x\\d+(\\.\\d+)?$"
         },
         "rounding": {
           "type": "string",
-          "description": "Rounding mode for number sliders.",
+          "description": "Number Slider: Rounding mode for number sliders.",
           "enum": ["Round", "None", "Even", "Odd"]
         },
         "additionalProperties": {
@@ -471,7 +412,7 @@
       },
       "additionalProperties": false
     },
-    "connectionPairing": {
+    "connectionData": {
       "type": "object",
       "description": "A connection (wire) between two component parameters.",
       "required": ["from", "to"],
@@ -490,7 +431,10 @@
     "connectionEndpoint": {
       "type": "object",
       "description": "An endpoint of a connection, referencing a component parameter.",
-      "required": ["id", "paramName"],
+      "oneOf": [
+        { "required": ["id", "paramName"] },
+        { "required": ["id", "paramIndex"] }
+      ],
       "properties": {
         "id": {
           "type": "integer",
@@ -509,18 +453,26 @@
       },
       "additionalProperties": false
     },
-    "group": {
+    "groupData": {
       "type": "object",
       "description": "A Grasshopper group containing multiple components.",
+      "oneOf": [
+        { "required": ["instanceGuid", "members"] },
+        { "required": ["id", "members"] }
+      ],
       "properties": {
         "instanceGuid": {
           "type": "string",
           "format": "uuid",
           "description": "The unique identifier for this group instance."
         },
+        "id": {
+          "type": "integer",
+          "description": "The integer ID of the group. Must be unique within the file."
+        },
         "name": {
           "type": "string",
-          "description": "The name/nickname of the group."
+          "description": "The name of the group."
         },
         "color": {
           "type": "string",

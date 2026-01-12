@@ -5,6 +5,8 @@
 
 GhJSON is a JSON-based format for representing [Grasshopper](https://discourse.mcneel.com/c/grasshopper) definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents.
 
+> ⚠️ **Warning:** This specification is still under development. Please do not use it in production yet.
+
 ## Overview
 
 GhJSON enables:
