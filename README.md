@@ -83,7 +83,7 @@ GhJSON files use the `.ghjson` extension.
 
 The canonical JSON Schema is available at:
 
-```
+```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 ```
 

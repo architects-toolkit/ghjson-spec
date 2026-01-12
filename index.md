@@ -3,7 +3,7 @@ layout: default
 title: Home
 ---
 
-# GhJSON Specification
+## GhJSON Specification
 
 GhJSON is a JSON-based format for representing [Grasshopper](https://www.grasshopper3d.com/) definitions.
 
@@ -16,7 +16,7 @@ GhJSON is a JSON-based format for representing [Grasshopper](https://www.grassho
 
 ## Schema URL
 
-```
+```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 ```
 

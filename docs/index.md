@@ -42,6 +42,7 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
   "instanceGuid": "12345678-1234-1234-1234-123456789abc",
   "id": 1,
   "pivot": "100,200",
+  "properties": { ... },
   "inputSettings": [ ... ],
   "outputSettings": [ ... ],
   "componentState": { ... }
@@ -52,8 +53,8 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
 
 ```json
 {
-  "from": { "id": 1, "paramName": "Result", "paramIndex": 0 },
-  "to": { "id": 2, "paramName": "A", "paramIndex": 0 }
+  "from": { "id": 1, "paramIndex": 0 },
+  "to": { "id": 2, "paramIndex": 0 }
 }
 ```
 
@@ -61,7 +62,7 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
 
 Validate your GhJSON files against the official schema:
 
-```
+```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 ```
 

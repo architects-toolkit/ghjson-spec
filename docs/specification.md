@@ -82,14 +82,15 @@ The `metadata` object contains information about the document:
   "metadata": {
     "description": "A parametric tower generator",
     "author": "Jane Smith",
-    "version": "2.0",
+    "version": "2",
     "created": "2026-01-10T14:30:00Z",
     "modified": "2026-01-11T09:15:00Z",
     "rhinoVersion": "8.24",
     "grasshopperVersion": "1.0.0007",
     "dependencies": ["Kangaroo2", "LunchBox"],
     "componentCount": 45,
-    "parameterCount": 23
+    "connectionCount": 12,
+    "groupCount": 3
   }
 }
 ```
@@ -105,7 +106,8 @@ The `metadata` object contains information about the document:
 | `grasshopperVersion` | string | Target Grasshopper version |
 | `dependencies` | string[] | Required plugin dependencies |
 | `componentCount` | integer | Total component count |
-| `parameterCount` | integer | Total parameter count |
+| `connectionCount` | integer | Total connection count |
+| `groupCount` | integer | Total group count |
 
 ---
 
@@ -119,13 +121,12 @@ Components are the core elements of a GhJSON document. Each component represents
 {
   "name": "Addition",
   "library": "Maths",
-  "type": "Operators",
   "nickName": "Add",
   "componentGuid": "a0d62394-a118-422d-abb3-6af115c75b25",
   "instanceGuid": "12345678-1234-1234-1234-123456789abc",
   "id": 1,
   "pivot": "100,200",
-  "params": {
+  "properties": {
     "NickName": "Custom Name"
   },
   "inputSettings": [ ... ],
@@ -138,38 +139,26 @@ Components are the core elements of a GhJSON document. Each component represents
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `name` | string | **Yes** | Display name of the component |
+| `name` | string | Conditional | Display name of the component |
 | `library` | string | No | Component library/category |
-| `type` | string | No | Component type/subcategory |
 | `nickName` | string | No | Custom nickname |
 | `componentGuid` | uuid | No | Component type GUID |
 | `instanceGuid` | uuid | No | Instance GUID |
-| `id` | integer | **Yes** | Integer ID for references |
-| `selected` | boolean | No | Selection state |
-| `pivot` | pivot | No | Canvas position |
-| `params` | object | No | Simple key-value properties |
+| `id` | integer | Conditional | Integer ID for references (required when referenced by connections/groups) |
+| `pivot` | string | No | Canvas position (compact string format: "X,Y") |
+| `properties` | object | No | Simple key-value properties |
 | `inputSettings` | array | No | Input parameter settings |
 | `outputSettings` | array | No | Output parameter settings |
 | `componentState` | object | No | UI-specific state |
 | `warnings` | string[] | No | Warning messages |
 | `errors` | string[] | No | Error messages |
-| `properties` | object | No | Legacy properties (backward compat) |
 
 ### 3.3 Pivot Format
 
-The `pivot` property supports two formats:
-
-**Compact String Format** (recommended):
+The `pivot` property uses a compact string format:
 ```json
 "pivot": "100.5,200.25"
 ```
-
-**Object Format** (legacy):
-```json
-"pivot": { "X": 100.5, "Y": 200.25 }
-```
-
-The compact format reduces JSON size by approximately 70%.
 
 ### 3.4 Component Identification
 
@@ -201,8 +190,8 @@ Connections represent the wires between component parameters.
 {
   "connections": [
     {
-      "from": { "id": 1, "paramName": "Result", "paramIndex": 0 },
-      "to": { "id": 2, "paramName": "A", "paramIndex": 0 }
+      "from": { "id": 1, "paramIndex": 0 },
+      "to": { "id": 2, "paramIndex": 0 }
     }
   ]
 }
@@ -220,8 +209,8 @@ Connections represent the wires between component parameters.
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
 | `id` | integer | **Yes** | Component integer ID |
-| `paramName` | string | **Yes** | Parameter name |
-| `paramIndex` | integer | No | Zero-based parameter index |
+| `paramName` | string | Conditional | Parameter name (required if `paramIndex` is not provided) |
+| `paramIndex` | integer | Conditional | Zero-based parameter index (required if `paramName` is not provided) |
 
 The `paramIndex` provides reliable parameter matching when parameter names may vary due to localization or custom nicknames.
 
@@ -250,10 +239,11 @@ Groups organize components visually on the canvas.
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `instanceGuid` | uuid | No | Group instance GUID |
+| `instanceGuid` | uuid | Conditional | Group instance GUID (required if `id` is not provided) |
+| `id` | integer | Conditional | Group integer ID (required if `instanceGuid` is not provided) |
 | `name` | string | No | Group name/nickname |
 | `color` | string | No | ARGB color (A,R,G,B format) |
-| `members` | integer[] | No | Component IDs in this group |
+| `members` | integer[] | **Yes** | Component IDs in this group |
 
 ---
 
@@ -284,19 +274,6 @@ GhJSON uses prefixed string formats for geometric and special data types.
 | Rectangle | `rectangleCXY:cx,cy,cz;xx,xy,xz;yx,yy,yz;w,h` | See spec |
 | Interval | `interval:min<max` | `"interval:0<10"` |
 | Color | `argb:a,r,g,b` | `"argb:255,128,64,32"` |
-
-### 6.3 Data Trees
-
-Persistent data is stored as JSON arrays with path information:
-
-```json
-{
-  "persistentData": [
-    { "path": "{0}", "values": ["pointXYZ:0,0,0", "pointXYZ:1,0,0"] },
-    { "path": "{1}", "values": ["pointXYZ:0,1,0"] }
-  ]
-}
-```
 
 ---
 
@@ -336,7 +313,7 @@ Additional properties:
     "drawIndices": false,
     "drawPaths": true,
     "alignment": 0,
-    "bounds": { "width": 150, "height": 100 }
+    "bounds": "150x100"
   }
 }
 ```
@@ -420,10 +397,10 @@ VB Script components have three code sections:
       "italic": false
     },
     "corners": [
-      { "x": 100, "y": 100 },
-      { "x": 300, "y": 100 },
-      { "x": 300, "y": 200 },
-      { "x": 100, "y": 200 }
+      "100,100",
+      "300,100",
+      "300,200",
+      "100,200"
     ]
   }
 }
@@ -436,7 +413,7 @@ VB Script components have three code sections:
 ### 8.1 Schema Validation
 
 GhJSON documents SHOULD validate against the JSON Schema at:
-```
+```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 ```
 
@@ -572,7 +549,7 @@ When deserializing, implementations MAY additionally verify:
 
 The recommended MIME type for GhJSON files is:
 
-```
+```text
 application/vnd.grasshopper.ghjson+json
 ```
 
