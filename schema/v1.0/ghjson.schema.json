@@ -383,7 +383,7 @@
         "rounding": {
           "type": "string",
           "description": "Number Slider: Rounding mode for number sliders.",
-          "enum": ["Round", "None", "Even", "Odd"]
+          "enum": ["Float", "Integer", "Even", "Odd"]
         },
         "additionalProperties": {
           "type": "object",
