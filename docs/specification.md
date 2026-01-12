@@ -2,7 +2,7 @@
 
 **Version**: 1.0  
 **Status**: Draft  
-**Last Updated**: 2026-01-11
+**Last Updated**: 2026-01-12
 
 ---
 
@@ -162,13 +162,14 @@ The `pivot` property uses a compact string format:
 
 ### 3.4 Component Identification
 
-Components can be identified in three ways:
+Components can be identified with any of these combinations (schema uses `anyOf`):
 
-1. **By Name**: The `name` property matches the component's display name
-2. **By Component GUID**: The `componentGuid` uniquely identifies the component type
-3. **By Instance GUID**: The `instanceGuid` uniquely identifies this specific instance
+1. **By Name + ID**: `name` with compact integer `id`
+2. **By Name + Instance GUID**: `name` plus `instanceGuid`
+3. **By Component GUID + ID**: `componentGuid` plus `id`
+4. **By Component GUID + Instance GUID**: `componentGuid` plus `instanceGuid`
 
-For reliable instantiation, always include `componentGuid` when available.
+You MAY include both `componentGuid` and `name` together. For reliable instantiation, include `componentGuid` and an `id` when the component will be referenced by connections or groups.
 
 ### 3.5 Integer IDs
 
@@ -227,6 +228,7 @@ Groups organize components visually on the canvas.
   "groups": [
     {
       "instanceGuid": "abcd1234-5678-90ab-cdef-1234567890ab",
+      "id": 1,
       "name": "Input Parameters",
       "color": "255,200,220,255",
       "members": [1, 2, 3]
@@ -239,10 +241,10 @@ Groups organize components visually on the canvas.
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `instanceGuid` | uuid | Conditional | Group instance GUID (required if `id` is not provided) |
-| `id` | integer | Conditional | Group integer ID (required if `instanceGuid` is not provided) |
+| `instanceGuid` | uuid | Conditional | Group instance GUID (required if `id` is not provided; both may be present) |
+| `id` | integer | Conditional | Group integer ID (required if `instanceGuid` is not provided; both may be present) |
 | `name` | string | No | Group name/nickname |
-| `color` | string | No | ARGB color (A,R,G,B format) |
+| `color` | string | No | ARGB color (A,R,G,B format), each channel 0–255 |
 | `members` | integer[] | **Yes** | Component IDs in this group |
 
 ---
