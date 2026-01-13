@@ -5,6 +5,7 @@ Welcome to the GhJSON specification documentation.
 ## Contents
 
 - [**Format Specification**](specification.md) - Complete format reference
+- [**Extensions**](extensions.md) - How to extend GhJSON safely and publish extensions
 - [**JSON Schema**](../schema/v1.0/ghjson.schema.json) - Machine-readable validation schema
 
 ## What is GhJSON?

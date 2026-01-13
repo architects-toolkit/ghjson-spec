@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.vbscript.schema.json",
+  "title": "GhJSON Extension: gh.vbscript (v1.0)",
+  "type": "object",
+  "properties": {
+    "vbCode": {
+      "type": "object",
+      "properties": {
+        "imports": { "type": "string" },
+        "script": { "type": "string" },
+        "additional": { "type": "string" }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

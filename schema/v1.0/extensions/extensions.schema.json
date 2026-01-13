@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/extensions.schema.json",
+  "title": "GhJSON Extension Registry (v1.0)",
+  "description": "Schema for GhJSON extension containers. Known extension keys are validated against their official schemas. Unknown extension keys are allowed but must remain objects.",
+  "type": "object",
+  "properties": {
+    "gh.panel": {
+      "$ref": "./gh.panel.schema.json"
+    },
+    "gh.scribble": {
+      "$ref": "./gh.scribble.schema.json"
+    },
+    "gh.valuelist": {
+      "$ref": "./gh.valuelist.schema.json"
+    },
+    "gh.vbscript": {
+      "$ref": "./gh.vbscript.schema.json"
+    },
+    "gh.numberslider": {
+      "$ref": "./gh.numberslider.schema.json"
+    }
+  },
+  "additionalProperties": {
+    "type": "object"
+  }
+}
