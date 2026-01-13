@@ -6,7 +6,7 @@
   "type": "object",
   "required": ["components"],
   "properties": {
-    "schemaVersion": {
+    "schema": {
       "type": "string",
       "description": "The GhJSON schema version. Used for compatibility checking.",
       "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
@@ -166,11 +166,6 @@
           "type": "string",
           "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$",
           "examples": ["100,200", "-50.5,300.25"]
-        },
-        "properties": {
-          "type": "object",
-          "description": "Simple key-value pairs for basic component properties.",
-          "additionalProperties": true
         },
         "inputSettings": {
           "type": "array",
@@ -334,12 +329,26 @@
           "description": "ValueList: Display mode for value list components.",
           "enum": ["DropDown", "CheckList", "Sequence", "Cycle", "Toggle"]
         },
-        "selectedIndices": {
+        "listItems": {
           "type": "array",
-          "description": "ValueList: Indices of selected items in a value list.",
+          "description": "ValueList: List items for value list components. Each item contains Name, Expression, and optionally Selected state.",
           "items": {
-            "type": "integer",
-            "minimum": 0
+            "type": "object",
+            "required": ["name", "expression"],
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Display name of the list item."
+              },
+              "expression": {
+                "type": "string",
+                "description": "Expression value of the list item."
+              },
+              "selected": {
+                "type": "boolean",
+                "description": "Whether this item is selected."
+              }
+            }
           }
         },
         "font": {
