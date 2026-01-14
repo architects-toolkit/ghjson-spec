@@ -5,20 +5,38 @@
   "description": "Schema for GhJSON extension containers. Known extension keys are validated against their official schemas. Unknown extension keys are allowed but must remain objects.",
   "type": "object",
   "properties": {
+    "gh.button": {
+      "$ref": "./gh.button.schema.json"
+    },
+    "gh.colorswatch": {
+      "$ref": "./gh.colorswatch.schema.json"
+    },
+    "gh.csharp": {
+      "$ref": "./gh.csharp.schema.json"
+    },
+    "gh.ironpython": {
+      "$ref": "./gh.ironpython.schema.json"
+    },
+    "gh.numberslider": {
+      "$ref": "./gh.numberslider.schema.json"
+    },
     "gh.panel": {
       "$ref": "./gh.panel.schema.json"
     },
+    "gh.python": {
+      "$ref": "./gh.python.schema.json"
+    },
     "gh.scribble": {
       "$ref": "./gh.scribble.schema.json"
+    },
+    "gh.toggle": {
+      "$ref": "./gh.toggle.schema.json"
     },
     "gh.valuelist": {
       "$ref": "./gh.valuelist.schema.json"
     },
     "gh.vbscript": {
       "$ref": "./gh.vbscript.schema.json"
-    },
-    "gh.numberslider": {
-      "$ref": "./gh.numberslider.schema.json"
     }
   },
   "additionalProperties": {

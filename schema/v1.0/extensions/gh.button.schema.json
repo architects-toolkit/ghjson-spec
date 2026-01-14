@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.button.schema.json",
+  "title": "GhJSON Extension: gh.button (v1.0)",
+  "description": "Extension for GH_ButtonObject component state",
+  "type": "object",
+  "properties": {
+    "normal": {
+      "type": "string",
+      "description": "Value when button is in normal state (default: 'False')"
+    },
+    "pressed": {
+      "type": "string",
+      "description": "Value when button is pressed (default: 'True')"
+    }
+  },
+  "additionalProperties": false
+}

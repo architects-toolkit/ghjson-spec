@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.toggle.schema.json",
+  "title": "GhJSON Extension: gh.toggle (v1.0)",
+  "description": "Extension for GH_BooleanToggle component state",
+  "type": "object",
+  "properties": {
+    "value": {
+      "type": "boolean",
+      "description": "Current toggle state (true/false)"
+    }
+  },
+  "required": ["value"],
+  "additionalProperties": false
+}

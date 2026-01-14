@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.csharp.schema.json",
+  "title": "GhJSON Extension: gh.csharp (v1.0)",
+  "description": "Extension for C# Script component state",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "C# script code"
+    },
+    "showStandardOutput": {
+      "type": "boolean",
+      "description": "Whether to show standard output parameter"
+    }
+  },
+  "required": ["code"],
+  "additionalProperties": false
+}

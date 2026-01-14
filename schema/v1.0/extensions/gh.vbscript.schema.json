@@ -2,17 +2,33 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.vbscript.schema.json",
   "title": "GhJSON Extension: gh.vbscript (v1.0)",
+  "description": "Extension for VB.NET Script component state",
   "type": "object",
   "properties": {
     "vbCode": {
       "type": "object",
+      "description": "VB.NET script code sections",
       "properties": {
-        "imports": { "type": "string" },
-        "script": { "type": "string" },
-        "additional": { "type": "string" }
+        "imports": {
+          "type": "string",
+          "description": "Import statements section"
+        },
+        "script": {
+          "type": "string",
+          "description": "Main script code"
+        },
+        "additional": {
+          "type": "string",
+          "description": "Additional code section"
+        }
       },
       "additionalProperties": false
+    },
+    "showStandardOutput": {
+      "type": "boolean",
+      "description": "Whether to show standard output parameter"
     }
   },
+  "required": ["vbCode"],
   "additionalProperties": false
 }

@@ -2,23 +2,29 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.scribble.schema.json",
   "title": "GhJSON Extension: gh.scribble (v1.0)",
+  "description": "Extension for GH_Scribble component state",
   "type": "object",
   "properties": {
-    "value": { "type": "string" },
-    "font": {
-      "type": "object",
-      "properties": {
-        "name": { "type": "string" },
-        "size": { "type": "number" },
-        "bold": { "type": "boolean" },
-        "italic": { "type": "boolean" }
-      },
-      "required": ["name", "size"],
-      "additionalProperties": false
+    "text": {
+      "type": "string",
+      "description": "Scribble text content"
     },
     "corners": {
       "type": "array",
+      "description": "Corner coordinates as comma-separated x,y pairs",
       "items": { "type": "string" }
+    },
+    "fontFamily": {
+      "type": "string",
+      "description": "Font family name"
+    },
+    "fontSize": {
+      "type": "number",
+      "description": "Font size in points"
+    },
+    "fontStyle": {
+      "type": "string",
+      "description": "Font style (Regular, Bold, Italic, BoldItalic)"
     }
   },
   "additionalProperties": false

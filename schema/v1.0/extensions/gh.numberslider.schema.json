@@ -2,6 +2,7 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.numberslider.schema.json",
   "title": "GhJSON Extension: gh.numberslider (v1.0)",
+  "description": "Extension for GH_NumberSlider component state",
   "type": "object",
   "properties": {
     "value": { "type": "string" },

@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.colorswatch.schema.json",
+  "title": "GhJSON Extension: gh.colorswatch (v1.0)",
+  "description": "Extension for GH_ColourSwatch component state",
+  "type": "object",
+  "properties": {
+    "color": {
+      "type": "string",
+      "description": "Color value in ARGB format (e.g., 'argb:255,150,144,53')"
+    }
+  },
+  "required": ["color"],
+  "additionalProperties": false
+}

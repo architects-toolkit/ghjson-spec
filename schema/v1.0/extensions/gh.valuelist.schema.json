@@ -2,17 +2,31 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.valuelist.schema.json",
   "title": "GhJSON Extension: gh.valuelist (v1.0)",
+  "description": "Extension for GH_ValueList component state",
   "type": "object",
   "properties": {
-    "listMode": { "type": "string" },
-    "listItems": {
+    "listMode": {
+      "type": "string",
+      "description": "List mode (CheckList, DropDownList, RadioButtons, etc.)"
+    },
+    "items": {
       "type": "array",
+      "description": "List items with name, expression, and selection state",
       "items": {
         "type": "object",
         "properties": {
-          "name": { "type": "string" },
-          "expression": { "type": "string" },
-          "selected": { "type": "boolean" }
+          "name": {
+            "type": "string",
+            "description": "Item display name"
+          },
+          "expression": {
+            "type": "string",
+            "description": "Item expression/value"
+          },
+          "selected": {
+            "type": "boolean",
+            "description": "Whether item is selected"
+          }
         },
         "required": ["name", "expression"],
         "additionalProperties": false
