@@ -21,6 +21,10 @@
       "type": "string",
       "description": "Text alignment (Left, Center, Right)"
     },
+    "color": {
+      "type": "string",
+      "description": "Panel color as ARGB format (argb:0-255,0-255,0-255,0-255)"
+    },
     "bounds": {
       "type": "array",
       "description": "Panel bounds as WxH (width x height)",
