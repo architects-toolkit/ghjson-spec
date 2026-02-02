@@ -24,7 +24,7 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "components": [
     {
       "name": "Number Slider",

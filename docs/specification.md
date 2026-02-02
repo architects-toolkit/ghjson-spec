@@ -55,7 +55,7 @@ A GhJSON document is a JSON object with the following top-level structure:
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "metadata": { ... },
   "components": [ ... ],
   "connections": [ ... ],
@@ -230,7 +230,7 @@ Groups organize components visually on the canvas.
       "instanceGuid": "abcd1234-5678-90ab-cdef-1234567890ab",
       "id": 1,
       "name": "Input Parameters",
-      "color": "255,200,220,255",
+      "color": "argb:255,200,220,255",
       "members": [1, 2, 3]
     }
   ]
@@ -244,7 +244,7 @@ Groups organize components visually on the canvas.
 | `instanceGuid` | uuid | Conditional | Group instance GUID (required if `id` is not provided; both may be present) |
 | `id` | integer | Conditional | Group integer ID (required if `instanceGuid` is not provided; both may be present) |
 | `name` | string | No | Group name/nickname |
-| `color` | string | No | ARGB color (A,R,G,B format), each channel 0–255 |
+| `color` | string | No | ARGB color with prefix (`argb:A,R,G,B`), each channel 0–255 |
 | `members` | integer[] | **Yes** | Component IDs in this group |
 
 ---
@@ -275,6 +275,7 @@ GhJSON uses prefixed string formats for geometric and special data types.
 | Box | `boxOXY:ox,oy,oz;xx,xy,xz;yx,yy,yz;x0,x1;y0,y1;z0,z1` | See spec |
 | Rectangle | `rectangleCXY:cx,cy,cz;xx,xy,xz;yx,yy,yz;w,h` | See spec |
 | Interval | `interval:min<max` | `"interval:0<10"` |
+| Bounds | `bounds:WxH` | `"bounds:150x100"` |
 | Color | `argb:a,r,g,b` | `"argb:255,128,64,32"` |
 
 ---
@@ -327,9 +328,9 @@ Additional properties:
   "name": "Value List",
   "componentState": {
     "value": [
-      { "Name": "Option A", "Expression": "0" },
-      { "Name": "Option B", "Expression": "1" },
-      { "Name": "Option C", "Expression": "2" }
+      { "name": "Option A", "expression": "0" },
+      { "name": "Option B", "expression": "1" },
+      { "name": "Option C", "expression": "2" }
     ],
     "listMode": "DropDown",
     "selectedIndices": [0]
@@ -460,7 +461,7 @@ When deserializing, implementations MAY additionally verify:
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "components": [
     {
       "name": "Number Slider",
@@ -502,7 +503,7 @@ When deserializing, implementations MAY additionally verify:
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "metadata": {
     "description": "Simple addition example",
     "author": "GhJSON Team",
@@ -538,7 +539,7 @@ When deserializing, implementations MAY additionally verify:
     {
       "instanceGuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       "name": "Inputs",
-      "color": "255,200,220,255",
+      "color": "argb:255,200,220,255",
       "members": [1, 2]
     }
   ]

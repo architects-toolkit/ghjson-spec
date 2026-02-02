@@ -26,7 +26,7 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "metadata": { ... },
   "components": [ ... ],
   "connections": [ ... ],

@@ -277,7 +277,7 @@
         "dataMapping": {
           "type": "string",
           "description": "Data tree mapping mode.",
-          "enum": ["None", "Flatten", "Graft"]
+          "enum": ["none", "flatten", "graft"]
         },
         "expression": {
           "type": "string",

@@ -1,5 +1,5 @@
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "metadata": {
     "description": "Simple addition example with two sliders",
     "author": "Marc Roca Musach",
@@ -63,7 +63,7 @@
     {
       "instanceGuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa",
       "name": "Input Sliders",
-      "color": "255,200,220,240",
+      "color": "argb:255,200,220,240",
       "members": [1, 2]
     }
   ]

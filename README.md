@@ -34,7 +34,7 @@ This format builds upon existing JSON-based Grasshopper formats, such as those u
 
 ```json
 {
-  "schemaVersion": "1.0",
+  "schema": "1.0",
   "components": [
     {
       "name": "Number Slider",
