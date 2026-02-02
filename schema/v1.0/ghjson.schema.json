@@ -270,6 +270,10 @@
           "type": "string",
           "description": "Custom nickname for the parameter."
         },
+        "variableName": {
+          "type": "string",
+          "description": "Custom variable name for the parameter. Used by script components."
+        },
         "description": {
           "type": "string",
           "description": "Description of the parameter."
