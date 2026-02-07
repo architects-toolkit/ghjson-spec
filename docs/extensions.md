@@ -122,6 +122,8 @@ All examples below live under `components[].componentState.extensions`.
 
 ### 5.2 `gh.scribble`
 
+Corners A, B, D are stored as offsets relative to the component pivot. Corner C is derived as `B + D - A` (parallelogram rule). See [specification §7.7](specification.md#77-scribble) for details.
+
 ```json
 {
   "componentState": {
@@ -131,12 +133,7 @@ All examples below live under `components[].componentState.extensions`.
         "fontFamily": "Arial",
         "fontSize": 14,
         "fontStyle": "Bold",
-        "corners": [
-          "100,100",
-          "300,100",
-          "300,200",
-          "100,200"
-        ]
+        "corners": ["0,0", "200,0", "0,100"]
       }
     }
   }

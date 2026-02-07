@@ -535,6 +535,8 @@ Unlike Rhino 8 script components (C#, Python 3, IronPython 2) which implement `I
 
 ### 7.7 Scribble
 
+Scribble geometry is defined by three corner offsets relative to the component pivot: A (top-left origin), B (top-right), and D (bottom-left). Corner C is derived as `B + D - A` (parallelogram rule). This minimal representation preserves rotation.
+
 ```json
 {
   "name": "Scribble",
@@ -545,17 +547,20 @@ Unlike Rhino 8 script components (C#, Python 3, IronPython 2) which implement `I
         "fontFamily": "Arial",
         "fontSize": 14,
         "fontStyle": "Bold",
-        "corners": [
-          "100,100",
-          "300,100",
-          "300,200",
-          "100,200"
-        ]
+        "corners": ["0,0", "200,0", "0,100"]
       }
     }
   }
 }
 ```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `text` | string | **Yes** | Scribble text content |
+| `corners` | array of 3 strings | **Yes** | Corner offsets relative to pivot as `"x,y"` pairs: `[A, B, D]`. Corner C = B + D − A. |
+| `fontFamily` | string | No | Font family name (default: system default) |
+| `fontSize` | number | No | Font size in points (default: 12) |
+| `fontStyle` | string | No | Font style: `Regular`, `Bold`, `Italic`, `BoldItalic` (default: `Regular`) |
 
 ---
 
