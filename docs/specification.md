@@ -318,14 +318,14 @@ Number sliders use a compact value format:
   "componentState": {
     "extensions": {
       "gh.numberslider": {
-        "value": "5.5<0,10>"
+        "value": "5.5<0~10>"
       }
     }
   }
 }
 ```
 
-Format: `value<min,max>` where:
+Format: `value<min~max>` where:
 - `value` is the current value
 - `min` is the minimum value
 - `max` is the maximum value
@@ -602,7 +602,7 @@ When deserializing, implementations MAY additionally verify:
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }
@@ -625,7 +625,7 @@ When deserializing, implementations MAY additionally verify:
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }
@@ -684,7 +684,7 @@ When deserializing, implementations MAY additionally verify:
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }

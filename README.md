@@ -53,7 +53,7 @@ This repository is JUST the specification for GhJSON format files, not an implem
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }

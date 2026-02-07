@@ -217,7 +217,7 @@ Unlike Rhino 8 script components (`gh.csharp`, `gh.python`, `gh.ironpython`) whi
   "componentState": {
     "extensions": {
       "gh.numberslider": {
-        "value": "5.5<0,10>",
+        "value": "5.5<0~10>",
         "rounding": "Float"
       }
     }

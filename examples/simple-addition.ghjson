@@ -15,7 +15,7 @@
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }
@@ -29,7 +29,7 @@
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "3<0,10>"
+            "value": "3<0~10>"
           }
         }
       }
