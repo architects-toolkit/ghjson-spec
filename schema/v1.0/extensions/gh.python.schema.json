@@ -7,11 +7,47 @@
   "properties": {
     "code": {
       "type": "string",
-      "description": "Python script code"
+      "description": "Python 3 script code"
     },
     "showStandardOutput": {
       "type": "boolean",
-      "description": "Whether to show standard output parameter"
+      "description": "Whether to show standard output parameter (default: true)"
+    },
+    "marshGuids": {
+      "type": "boolean",
+      "description": "Avoid Marshalling Output Guids - set to false to disable (default: true)"
+    },
+    "marshOutputs": {
+      "type": "boolean",
+      "description": "Avoid Grafting Output Lines - set to false to disable (default: true)"
+    },
+    "marshInputs": {
+      "type": "boolean",
+      "description": "Marshalling inputs option - set to false to disable (default: true)"
+    },
+    "outModifiers": {
+      "type": "object",
+      "description": "Modifiers for the 'out' standard output parameter",
+      "properties": {
+        "isSimplified": {
+          "type": "boolean",
+          "description": "Simplify output data tree"
+        },
+        "isReversed": {
+          "type": "boolean",
+          "description": "Reverse output data tree"
+        },
+        "dataMapping": {
+          "type": "string",
+          "enum": ["None", "Flatten", "Graft"],
+          "description": "Data mapping mode for output"
+        },
+        "expression": {
+          "type": "string",
+          "description": "Expression applied to the output"
+        }
+      },
+      "additionalProperties": false
     }
   },
   "required": ["code"],

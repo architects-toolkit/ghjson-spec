@@ -340,7 +340,9 @@ Additional properties:
 
 List modes: `DropDown`, `CheckList`, `Sequence`, `Cycle`, `Toggle`
 
-### 7.4 Script Components (C#, Python)
+### 7.4 Script Components (C#, Python, IronPython)
+
+Script components (C#, Python 3, IronPython 2) store their code and configuration in the `componentState.extensions` object:
 
 ```json
 {
@@ -361,13 +363,56 @@ List modes: `DropDown`, `CheckList`, `Sequence`, `Cycle`, `Toggle`
     }
   ],
   "componentState": {
-    "value": "A = x * 2;",
-    "marshInputs": true,
-    "marshOutputs": true,
-    "showStandardOutput": false
+    "extensions": {
+      "gh.csharp": {
+        "code": "A = x * 2;",
+        "showStandardOutput": true,
+        "marshGuids": false,
+        "marshOutputs": false,
+        "marshInputs": false,
+        "outModifiers": {
+          "isSimplified": true,
+          "isReversed": false,
+          "dataMapping": "Graft",
+          "expression": "x * 2"
+        }
+      }
+    }
   }
 }
 ```
+
+**Extension keys:**
+- `gh.csharp` — C# Script component
+- `gh.python` — Python 3 Script component  
+- `gh.ironpython` — IronPython 2 Script component
+
+**Extension properties:**
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `code` | string | **Yes** | Script source code |
+| `showStandardOutput` | boolean | No | Whether to show the "out" parameter (default: true) |
+| `marshGuids` | boolean | No | "Avoid Marshalling Output Guids" — set to `false` to disable (default: true) |
+| `marshOutputs` | boolean | No | "Avoid Grafting Output Lines" — set to `false` to disable (default: true) |
+| `marshInputs` | boolean | No | Marshalling inputs option — set to `false` to disable (default: true) |
+| `outModifiers` | object | No | Modifiers for the "out" parameter (see below) |
+
+**Out Parameter Modifiers:**
+
+The `outModifiers` object captures modifiers for the "out" standard output parameter:
+
+| Property | Type | Description |
+|----------|------|-------------|
+| `isSimplified` | boolean | Simplify output data tree |
+| `isReversed` | boolean | Reverse output data tree |
+| `dataMapping` | string | Data mapping mode: `"None"`, `"Flatten"`, or `"Graft"` |
+| `expression` | string | Expression applied to the output |
+
+**Notes:**
+- Marshalling options (`marshGuids`, `marshOutputs`, `marshInputs`) are only available on C#, Python 3, and IronPython 2 components (those implementing `IScriptComponent`)
+- Default value for all marshalling options is `true` (marshalling enabled). Only store `false` values.
+- The "out" parameter is only present when `showStandardOutput` is `true`
 
 ### 7.5 VB Script
 
