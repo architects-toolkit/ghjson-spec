@@ -367,9 +367,9 @@ Script components (C#, Python 3, IronPython 2) store their code and configuratio
       "gh.csharp": {
         "code": "A = x * 2;",
         "showStandardOutput": true,
-        "marshGuids": false,
-        "marshOutputs": false,
-        "marshInputs": false,
+        "avoidMarshalGuids": true,
+        "avoidGraftOutputs": true,
+        "avoidMarshalInputs": true,
         "outModifiers": {
           "isSimplified": true,
           "isReversed": false,
@@ -393,9 +393,9 @@ Script components (C#, Python 3, IronPython 2) store their code and configuratio
 |----------|------|----------|-------------|
 | `code` | string | **Yes** | Script source code |
 | `showStandardOutput` | boolean | No | Whether to show the "out" parameter (default: true) |
-| `marshGuids` | boolean | No | "Avoid Marshalling Output Guids" — set to `false` to disable (default: true) |
-| `marshOutputs` | boolean | No | "Avoid Grafting Output Lines" — set to `false` to disable (default: true) |
-| `marshInputs` | boolean | No | Marshalling inputs option — set to `false` to disable (default: true) |
+| `avoidMarshalGuids` | boolean | No | "Avoid Marshalling Output Guids" — `true` when enabled (default: `false`) |
+| `avoidGraftOutputs` | boolean | No | "Avoid Grafting Output Lines" — `true` when enabled (default: `false`) |
+| `avoidMarshalInputs` | boolean | No | "Avoid Marshalling Inputs" — `true` when enabled (default: `false`) |
 | `outModifiers` | object | No | Modifiers for the "out" parameter (see below) |
 
 **Out Parameter Modifiers:**
@@ -410,8 +410,8 @@ The `outModifiers` object captures modifiers for the "out" standard output param
 | `expression` | string | Expression applied to the output |
 
 **Notes:**
-- Marshalling options (`marshGuids`, `marshOutputs`, `marshInputs`) are only available on C#, Python 3, and IronPython 2 components (those implementing `IScriptComponent`)
-- Default value for all marshalling options is `true` (marshalling enabled). Only store `false` values.
+- Marshalling options (`avoidMarshalGuids`, `avoidGraftOutputs`, `avoidMarshalInputs`) are only available on C#, Python 3, and IronPython 2 components (those implementing `IScriptComponent`)
+- Default value for all marshalling options is `false` (marshalling active). Only store `true` values (when "Avoid" is enabled).
 - The "out" parameter is only present when `showStandardOutput` is `true`
 
 ### 7.5 VB Script

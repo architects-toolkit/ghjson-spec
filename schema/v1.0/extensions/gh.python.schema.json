@@ -13,17 +13,17 @@
       "type": "boolean",
       "description": "Whether to show standard output parameter (default: true)"
     },
-    "marshGuids": {
+    "avoidMarshalGuids": {
       "type": "boolean",
-      "description": "Avoid Marshalling Output Guids - set to false to disable (default: true)"
+      "description": "Avoid Marshalling Output Guids - true when enabled (default: false)"
     },
-    "marshOutputs": {
+    "avoidGraftOutputs": {
       "type": "boolean",
-      "description": "Avoid Grafting Output Lines - set to false to disable (default: true)"
+      "description": "Avoid Grafting Output Lines - true when enabled (default: false)"
     },
-    "marshInputs": {
+    "avoidMarshalInputs": {
       "type": "boolean",
-      "description": "Marshalling inputs option - set to false to disable (default: true)"
+      "description": "Avoid Marshalling Inputs - true when enabled (default: false)"
     },
     "outModifiers": {
       "type": "object",
