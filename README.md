@@ -7,14 +7,9 @@ GhJSON is a JSON-based format for representing [Grasshopper](https://discourse.m
 
 > ⚠️ **Warning:** This specification is still under development. Please do not use it in production yet.
 
-## Overview
+**This repository establishes a community-driven standard for JSON-based Grasshopper definition representation, enabling open-source initiatives to adopt a compatible format.**
 
-GhJSON enables:
-
-- **Version control** - Track changes to Grasshopper definitions in Git
-- **AI integration** - Enable AI tools to read and generate Grasshopper definitions
-- **Cross-platform sharing** - Share definitions without binary format dependencies
-- **Automation** - Programmatically create and modify definitions
+This format builds upon existing JSON-based Grasshopper formats, such as those used by [GHPT](https://github.com/enmerk4r/GHPT) and [WolfParametric's wolf-community-scripts](https://huggingface.co/datasets/WolfParametric/wolf-community-scripts).
 
 ## Why GhJSON?
 
@@ -24,9 +19,23 @@ With the growth of AI and the potential for generating, optimizing, and fixing G
 - The `.ghx` file format is XML-based, but its verbosity results in excessive token consumption for LLMs.
 - Most LLMs are JSON-compatible, making JSON the natural choice for sending Grasshopper definitions to AI tools.
 
-This format builds upon existing JSON-based Grasshopper formats, such as those used by [GHPT](https://github.com/enmerk4r/GHPT) and [WolfParametric's wolf-community-scripts](https://huggingface.co/datasets/WolfParametric/wolf-community-scripts).
+## Potential uses
 
-**This repository establishes a community-driven standard for JSON-based Grasshopper definition representation, enabling open-source initiatives to adopt a compatible format.**
+GhJSON is a minimal, human-readable JSON-based format for Grasshopper files that could be used for:
+
+- **Version control** - Track changes to Grasshopper definitions in Git
+- **AI integration** - Enable AI tools to read and generate Grasshopper definitions
+- **Cross-platform sharing** - Share definitions without binary format dependencies
+- **Automation** - Programmatically create and modify definitions
+- **Any other use case** that requires a text-based representation of Grasshopper definitions
+
+This repository is JUST the specification for GhJSON format files, not an implementation for a specific use case.
+
+## Projects Known to Use GhJSON
+
+| Name | Link | Description |
+| -------- | ------- | ------ |
+| SmartHopper | [SmartHopper](https://github.com/architects-toolkit/SmartHopper) | An open-source plugin that implements third-party AI APIs to provide advanced features for Grasshopper3D. |
 
 ## Quick Start
 
@@ -68,12 +77,6 @@ ajv validate -s schema/v1.0/ghjson.schema.json -d your-file.ghjson --spec=draft2
 
 - [**Format Specification**](docs/specification.md) - Complete format documentation
 - [**JSON Schema**](schema/v1.0/ghjson.schema.json) - Machine-readable schema
-
-## Projects Known to Use GhJSON
-
-| Name | Link | Description |
-| -------- | ------- | ------ |
-| SmartHopper | [SmartHopper](https://github.com/architects-toolkit/SmartHopper) | An open-source plugin that implements third-party AI APIs to provide advanced features for Grasshopper3D. |
 
 ## File Extension
 
