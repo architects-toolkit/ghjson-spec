@@ -13,7 +13,11 @@
       "id": 1,
       "pivot": "100,100",
       "componentState": {
-        "value": "5<0,10>"
+        "extensions": {
+          "gh.numberslider": {
+            "value": "5<0,10>"
+          }
+        }
       }
     },
     {
@@ -23,7 +27,11 @@
       "id": 2,
       "pivot": "100,150",
       "componentState": {
-        "value": "3<0,10>"
+        "extensions": {
+          "gh.numberslider": {
+            "value": "3<0,10>"
+          }
+        }
       }
     },
     {
@@ -40,8 +48,13 @@
       "id": 4,
       "pivot": "500,125",
       "componentState": {
-        "multiline": false,
-        "wrap": false
+        "extensions": {
+          "gh.panel": {
+            "text": "",
+            "multiline": false,
+            "wrap": false
+          }
+        }
       }
     }
   ],

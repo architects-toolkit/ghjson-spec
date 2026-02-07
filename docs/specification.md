@@ -67,7 +67,7 @@ A GhJSON document is a JSON object with the following top-level structure:
 
 | Property | Type | Required | Description |
 |----------|------|----------|-------------|
-| `schemaVersion` | string | No | GhJSON schema version (default: "1.0") |
+| `schema` | string | No | GhJSON schema version (default: "1.0") |
 | `metadata` | object | No | Document metadata |
 | `components` | array | **Yes** | List of components |
 | `connections` | array | No | List of connections |
@@ -126,9 +126,6 @@ Components are the core elements of a GhJSON document. Each component represents
   "instanceGuid": "12345678-1234-1234-1234-123456789abc",
   "id": 1,
   "pivot": "100,200",
-  "properties": {
-    "NickName": "Custom Name"
-  },
   "inputSettings": [ ... ],
   "outputSettings": [ ... ],
   "componentState": { ... }
@@ -145,19 +142,23 @@ Components are the core elements of a GhJSON document. Each component represents
 | `componentGuid` | uuid | No | Component type GUID |
 | `instanceGuid` | uuid | No | Instance GUID |
 | `id` | integer | Conditional | Integer ID for references (required when referenced by connections/groups) |
-| `pivot` | string | No | Canvas position (compact string format: "X,Y") |
-| `properties` | object | No | Simple key-value properties |
+| `pivot` | string or object | No | Canvas position (string: "X,Y" or object: `{ "x": 100, "y": 200 }`) |
 | `inputSettings` | array | No | Input parameter settings |
 | `outputSettings` | array | No | Output parameter settings |
 | `componentState` | object | No | UI-specific state |
 | `warnings` | string[] | No | Warning messages |
 | `errors` | string[] | No | Error messages |
+| `remarks` | string[] | No | Remark messages |
 
 ### 3.3 Pivot Format
 
 The `pivot` property uses a compact string format:
 ```json
 "pivot": "100.5,200.25"
+```
+Or an explicit object format:
+```json
+"pivot": { "x": 100.5, "y": 200.25 }
 ```
 
 ### 3.4 Component Identification
@@ -178,6 +179,31 @@ The `id` property provides a compact integer reference for use in connections an
 - MUST be positive integers (≥ 1)
 - MUST be unique within the document
 - SHOULD be sequential (1, 2, 3, ...)
+
+### 3.6 Parameter Settings (`inputSettings` / `outputSettings`)
+
+The optional `inputSettings` and `outputSettings` arrays configure a component's parameters.
+
+Each item is a **Parameter Settings** object:
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `parameterName` | string | **Yes** | The parameter name |
+| `nickName` | string | No | Custom nickname |
+| `variableName` | string | No | Script parameter variable name |
+| `description` | string | No | Parameter description |
+| `dataMapping` | string | No | Mapping mode: `none`, `flatten`, `graft` |
+| `expression` | string | No | Expression (presence implies an expression exists) |
+| `access` | string | No | Script access: `item`, `list`, `tree` |
+| `typeHint` | string | No | Script type hint (e.g., `double`, `Point3d`) |
+| `isPrincipal` | boolean | No | Principal/master input |
+| `isRequired` | boolean | No | Required parameter for variable parameter components |
+| `isReparameterized` | boolean | No | Domain reparameterization |
+| `isReversed` | boolean | No | Reverse modifier |
+| `isSimplified` | boolean | No | Simplify modifier |
+| `isInverted` | boolean | No | Invert modifier (boolean params) |
+| `isUnitized` | boolean | No | Unitize modifier (vector params) |
+| `internalizedData` | object | No | Internalized data tree |
 
 ---
 
@@ -290,7 +316,11 @@ Number sliders use a compact value format:
 {
   "name": "Number Slider",
   "componentState": {
-    "value": "5.5<0,10>"
+    "extensions": {
+      "gh.numberslider": {
+        "value": "5.5<0,10>"
+      }
+    }
   }
 }
 ```
@@ -310,13 +340,17 @@ Additional properties:
 {
   "name": "Panel",
   "componentState": {
-    "value": "Hello World",
-    "multiline": true,
-    "wrap": true,
-    "drawIndices": false,
-    "drawPaths": true,
-    "alignment": 0,
-    "bounds": "150x100"
+    "extensions": {
+      "gh.panel": {
+        "text": "Hello World",
+        "multiline": true,
+        "wrap": true,
+        "drawIndices": false,
+        "drawPaths": true,
+        "alignment": "Left",
+        "bounds": ["150x100"]
+      }
+    }
   }
 }
 ```
@@ -327,18 +361,21 @@ Additional properties:
 {
   "name": "Value List",
   "componentState": {
-    "value": [
-      { "name": "Option A", "expression": "0" },
-      { "name": "Option B", "expression": "1" },
-      { "name": "Option C", "expression": "2" }
-    ],
-    "listMode": "DropDown",
-    "selectedIndices": [0]
+    "extensions": {
+      "gh.valuelist": {
+        "listMode": "DropDown",
+        "items": [
+          { "name": "Option A", "expression": "0", "selected": true },
+          { "name": "Option B", "expression": "1" },
+          { "name": "Option C", "expression": "2" }
+        ]
+      }
+    }
   }
 }
 ```
 
-List modes: `DropDown`, `CheckList`, `Sequence`, `Cycle`, `Toggle`
+`listMode` is an implementation-defined string (the schema does not enforce a fixed set of values).
 
 ### 7.4 Script Components (C#, Python, IronPython)
 
@@ -422,10 +459,14 @@ VB Script components have three code sections:
 {
   "name": "VB Script",
   "componentState": {
-    "vbCode": {
-      "imports": "Imports System.Math",
-      "script": "A = Sin(x)",
-      "additional": "' Helper functions here"
+    "extensions": {
+      "gh.vbscript": {
+        "vbCode": {
+          "imports": "Imports System.Math",
+          "script": "A = Sin(x)",
+          "additional": "' Helper functions here"
+        }
+      }
     }
   }
 }
@@ -437,19 +478,20 @@ VB Script components have three code sections:
 {
   "name": "Scribble",
   "componentState": {
-    "value": "Design Notes",
-    "font": {
-      "name": "Arial",
-      "size": 14,
-      "bold": true,
-      "italic": false
-    },
-    "corners": [
-      "100,100",
-      "300,100",
-      "300,200",
-      "100,200"
-    ]
+    "extensions": {
+      "gh.scribble": {
+        "text": "Design Notes",
+        "fontFamily": "Arial",
+        "fontSize": 14,
+        "fontStyle": "Bold",
+        "corners": [
+          "100,100",
+          "300,100",
+          "300,200",
+          "100,200"
+        ]
+      }
+    }
   }
 }
 ```
@@ -496,7 +538,13 @@ When deserializing, implementations MAY additionally verify:
       "instanceGuid": "11111111-1111-1111-1111-111111111111",
       "id": 1,
       "pivot": "100,100",
-      "componentState": { "value": "5<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "5<0,10>"
+          }
+        }
+      }
     }
   ]
 }
@@ -513,14 +561,26 @@ When deserializing, implementations MAY additionally verify:
       "instanceGuid": "11111111-1111-1111-1111-111111111111",
       "id": 1,
       "pivot": "100,100",
-      "componentState": { "value": "5<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "5<0,10>"
+          }
+        }
+      }
     },
     {
       "name": "Number Slider",
       "instanceGuid": "22222222-2222-2222-2222-222222222222",
       "id": 2,
       "pivot": "100,150",
-      "componentState": { "value": "3<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "3<0,10>"
+          }
+        }
+      }
     },
     {
       "name": "Addition",
@@ -560,14 +620,26 @@ When deserializing, implementations MAY additionally verify:
       "instanceGuid": "11111111-1111-1111-1111-111111111111",
       "id": 1,
       "pivot": "100,100",
-      "componentState": { "value": "5<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "5<0,10>"
+          }
+        }
+      }
     },
     {
       "name": "Number Slider",
       "instanceGuid": "22222222-2222-2222-2222-222222222222",
       "id": 2,
       "pivot": "100,150",
-      "componentState": { "value": "3<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "3<0,10>"
+          }
+        }
+      }
     },
     {
       "name": "Addition",

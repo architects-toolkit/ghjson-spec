@@ -39,17 +39,11 @@ Example:
     "title": "Example",
     "extensions": {
       "gh.panel": {
-        "value": "Hello World",
+        "text": "Hello World",
         "multiline": true,
         "wrap": true,
-        "alignment": 0,
-        "bounds": "150x100",
-        "font": {
-          "name": "Arial",
-          "size": 14,
-          "bold": false,
-          "italic": false
-        }
+        "alignment": "Left",
+        "bounds": ["150x100"]
       }
     }
   },
@@ -58,20 +52,13 @@ Example:
       "name": "Panel",
       "id": 1,
       "componentState": {
-        "value": "Hello",
         "extensions": {
           "gh.panel": {
-            "value": "Hello World",
+            "text": "Hello World",
             "multiline": true,
             "wrap": true,
-            "alignment": 0,
-            "bounds": "150x100",
-            "font": {
-              "name": "Arial",
-              "size": 14,
-              "bold": false,
-              "italic": false
-            }
+            "alignment": "Left",
+            "bounds": ["150x100"]
           }
         }
       }
@@ -121,17 +108,11 @@ All examples below live under `components[].componentState.extensions`.
   "componentState": {
     "extensions": {
       "gh.panel": {
-        "value": "Hello World",
+        "text": "Hello World",
         "multiline": true,
         "wrap": true,
-        "alignment": 0,
-        "bounds": "150x100",
-        "font": {
-          "name": "Arial",
-          "size": 14,
-          "bold": false,
-          "italic": false
-        }
+        "alignment": "Left",
+        "bounds": ["150x100"]
       }
     }
   }
@@ -145,13 +126,10 @@ All examples below live under `components[].componentState.extensions`.
   "componentState": {
     "extensions": {
       "gh.scribble": {
-        "value": "Design Notes",
-        "font": {
-          "name": "Arial",
-          "size": 14,
-          "bold": true,
-          "italic": false
-        },
+        "text": "Design Notes",
+        "fontFamily": "Arial",
+        "fontSize": 14,
+        "fontStyle": "Bold",
         "corners": [
           "100,100",
           "300,100",
@@ -172,7 +150,7 @@ All examples below live under `components[].componentState.extensions`.
     "extensions": {
       "gh.valuelist": {
         "listMode": "DropDown",
-        "listItems": [
+        "items": [
           { "name": "Option A", "expression": "0", "selected": true },
           { "name": "Option B", "expression": "1" },
           { "name": "Option C", "expression": "2" }

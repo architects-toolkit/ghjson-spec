@@ -43,7 +43,6 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
   "instanceGuid": "12345678-1234-1234-1234-123456789abc",
   "id": 1,
   "pivot": "100,200",
-  "properties": { ... },
   "inputSettings": [ ... ],
   "outputSettings": [ ... ],
   "componentState": { ... }

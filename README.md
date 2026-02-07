@@ -50,7 +50,13 @@ This repository is JUST the specification for GhJSON format files, not an implem
       "instanceGuid": "11111111-1111-1111-1111-111111111111",
       "id": 1,
       "pivot": "100,100",
-      "componentState": { "value": "5<0,10>" }
+      "componentState": {
+        "extensions": {
+          "gh.numberslider": {
+            "value": "5<0,10>"
+          }
+        }
+      }
     },
     {
       "name": "Addition",
