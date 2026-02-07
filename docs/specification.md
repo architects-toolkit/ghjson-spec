@@ -472,7 +472,68 @@ VB Script components have three code sections:
 }
 ```
 
-### 7.6 Scribble
+### 7.6 GhPython (Old GhPython / Ladybug Tools)
+
+Old GhPython script components (`ZuiPythonComponent` from `GhPython.dll`) store their code in the `componentState.extensions` object under the `gh.ghpython` key. This covers:
+
+- The generic **GhPython Script** component from the Grasshopper toolbar.
+- **Ladybug Tools** components (LB Hourly Plot, LB Sunpath, etc.).
+- **Honeybee**, **Dragonfly**, and any other plugin that ships pre-configured `ZuiPythonComponent` instances.
+
+Unlike Rhino 8 script components (C#, Python 3, IronPython 2) which implement `IScriptComponent`, old GhPython components do not expose that interface. Marshalling options (`avoidMarshalGuids`, `avoidGraftOutputs`, `avoidMarshalInputs`) are therefore **not applicable**.
+
+```json
+{
+  "name": "LB Hourly Plot",
+  "library": "Ladybug",
+  "componentGuid": "410755b1-224a-4c1e-a407-bf32fb45ea7e",
+  "id": 1,
+  "pivot": "100,200",
+  "inputSettings": [
+    {
+      "parameterName": "_data",
+      "access": "list"
+    },
+    {
+      "parameterName": "_base_pt_"
+    }
+  ],
+  "outputSettings": [
+    {
+      "parameterName": "mesh"
+    },
+    {
+      "parameterName": "legend"
+    }
+  ],
+  "componentState": {
+    "extensions": {
+      "gh.ghpython": {
+        "code": "# Ladybug: A Plugin for Environmental Analysis (GPL)\n# ...\ntry:\n    from ladybug_rhino.grasshopper import ...\nexcept ImportError as e:\n    raise ImportError(...)",
+        "showStandardOutput": true
+      }
+    }
+  }
+}
+```
+
+**Extension key:** `gh.ghpython`
+
+**Extension properties:**
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `code` | string | **Yes** | Python (IronPython) script code |
+| `showStandardOutput` | boolean | No | Whether the `out` standard output parameter is visible (default: true) |
+| `outModifiers` | object | No | Modifiers for the `out` parameter (same shape as section 7.4) |
+
+**Notes:**
+
+- For Ladybug/Honeybee components the `code` property captures the embedded script for documentation and AI understanding. During deserialization on a machine where the plugin is installed, `AddedToDocument` may reinitialize the component from the plugin's own script files.
+- The `inputSettings` and `outputSettings` arrays capture script parameter details (access mode, variable names, type hints) the same way as section 7.4.
+- Marshalling options are **not available** on old GhPython components; do not include `avoidMarshalGuids`, `avoidGraftOutputs`, or `avoidMarshalInputs`.
+
+### 7.7 Scribble
 
 ```json
 {

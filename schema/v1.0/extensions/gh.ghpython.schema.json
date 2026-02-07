@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.ghpython.schema.json",
+  "title": "GhJSON Extension: gh.ghpython (v1.0)",
+  "description": "Extension for old GhPython script components (ZuiPythonComponent from GhPython.dll). Covers the generic GhPython Script component as well as Ladybug Tools, Honeybee, Dragonfly, and any other plugin that ships pre-configured ZuiPythonComponent instances. Unlike Rhino 8 script components (gh.csharp, gh.python, gh.ironpython) which implement IScriptComponent, old GhPython components do not expose that interface. Marshalling options are therefore not applicable.",
+  "type": "object",
+  "properties": {
+    "code": {
+      "type": "string",
+      "description": "Python (IronPython) script code embedded in the component"
+    },
+    "showStandardOutput": {
+      "type": "boolean",
+      "description": "Whether to show the 'out' standard output parameter (default: true)"
+    },
+    "outModifiers": {
+      "type": "object",
+      "description": "Modifiers for the 'out' standard output parameter",
+      "properties": {
+        "isSimplified": {
+          "type": "boolean",
+          "description": "Simplify output data tree"
+        },
+        "isReversed": {
+          "type": "boolean",
+          "description": "Reverse output data tree"
+        },
+        "dataMapping": {
+          "type": "string",
+          "enum": ["None", "Flatten", "Graft"],
+          "description": "Data mapping mode for output"
+        },
+        "expression": {
+          "type": "string",
+          "description": "Expression applied to the output"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "required": ["code"],
+  "additionalProperties": false
+}

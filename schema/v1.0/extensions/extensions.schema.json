@@ -14,6 +14,9 @@
     "gh.csharp": {
       "$ref": "./gh.csharp.schema.json"
     },
+    "gh.ghpython": {
+      "$ref": "./gh.ghpython.schema.json"
+    },
     "gh.ironpython": {
       "$ref": "./gh.ironpython.schema.json"
     },

@@ -92,6 +92,7 @@ Keep the base spec readable by placing extension specifications under a dedicate
   - `gh.scribble.md`
   - `gh.valuelist.md`
   - `gh.vbscript.md`
+  - `gh.ghpython.md`
   - `gh.numberslider.md`
   - `vendor.<name>.<feature>.md`
 
@@ -179,7 +180,37 @@ All examples below live under `components[].componentState.extensions`.
 }
 ```
 
-### 5.5 `gh.numberslider`
+### 5.5 `gh.ghpython`
+
+Used for old GhPython script components (`ZuiPythonComponent` from `GhPython.dll`).
+This covers the generic **GhPython Script** component, **Ladybug Tools**, **Honeybee**, **Dragonfly**, and any other plugin that ships pre-configured `ZuiPythonComponent` instances.
+
+Unlike Rhino 8 script components (`gh.csharp`, `gh.python`, `gh.ironpython`) which implement `IScriptComponent`, old GhPython components do not expose that interface. Marshalling options are therefore **not applicable**.
+
+```json
+{
+  "componentState": {
+    "extensions": {
+      "gh.ghpython": {
+        "code": "import rhinoscriptsyntax as rs\nimport ghpythonlib.components as ghcomp\n\na = x + y",
+        "showStandardOutput": true
+      }
+    }
+  }
+}
+```
+
+| Property | Type | Required | Description |
+|----------|------|----------|-------------|
+| `code` | string | **Yes** | Python (IronPython) script code |
+| `showStandardOutput` | boolean | No | Whether the `out` standard output parameter is visible |
+| `outModifiers` | object | No | Modifiers on the `out` parameter (same shape as other script extensions) |
+
+> **Note:** For Ladybug/Honeybee components, the `code` property captures the embedded script
+> for documentation and AI understanding. During deserialization on a machine where the plugin
+> is installed, `AddedToDocument` may reinitialize the component from the plugin's own script files.
+
+### 5.6 `gh.numberslider`
 
 ```json
 {
