@@ -132,7 +132,8 @@ Corners A, B, D are stored as offsets relative to the component pivot. Corner C 
         "text": "Design Notes",
         "fontFamily": "Arial",
         "fontSize": 14,
-        "fontStyle": "Bold",
+        "bold": true,
+        "italic": false,
         "corners": ["0,0", "200,0", "0,100"]
       }
     }
