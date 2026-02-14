@@ -702,7 +702,7 @@ When deserializing, implementations MAY additionally verify:
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "3<0,10>"
+            "value": "3<0~10>"
           }
         }
       }

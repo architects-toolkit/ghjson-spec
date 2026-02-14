@@ -34,7 +34,7 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
       "componentState": {
         "extensions": {
           "gh.numberslider": {
-            "value": "5<0,10>"
+            "value": "5<0~10>"
           }
         }
       }
