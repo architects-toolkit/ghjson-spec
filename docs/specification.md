@@ -163,7 +163,9 @@ Or an explicit object format:
 
 ### 3.4 Component Identification
 
-Components can be identified with any of these combinations (schema uses `anyOf`):
+Components MUST have at least one identifier (`id` or `instanceGuid`). Library implementations MAY auto-assign sequential `id` values to components lacking identifiers during document construction.
+
+Components can be identified with any of these combinations:
 
 1. **By Name + ID**: `name` with compact integer `id`
 2. **By Name + Instance GUID**: `name` plus `instanceGuid`
