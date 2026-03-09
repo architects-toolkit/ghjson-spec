@@ -2,6 +2,7 @@
 
 [![Schema Version](https://img.shields.io/badge/schema-v1.0-blue)](https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json)
 [![License](https://img.shields.io/badge/license-CC0%201.0%20Universal-white)](LICENSE)
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/architects-toolkit/ghjson-spec)
 
 GhJSON is a JSON-based format for representing [Grasshopper](https://discourse.mcneel.com/c/grasshopper) definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents.
 
