@@ -1,0 +1,55 @@
+{
+  "schema": "1.0",
+  "kind": "ghpatch",
+  "patch": {
+    "base": {
+      "schema": "1.0"
+    },
+    "metadata": {
+      "set": {
+        "description": "Simple addition example with two sliders and a labelled result",
+        "modified": "2026-05-13T22:00:00Z"
+      }
+    },
+    "components": {
+      "modify": [
+        {
+          "match": { "instanceGuid": "11111111-1111-1111-1111-111111111111" },
+          "componentState": {
+            "extensions": {
+              "set": {
+                "gh.numberslider": { "value": "7<0~10>" }
+              }
+            }
+          }
+        },
+        {
+          "match": { "id": 3 },
+          "set": { "nickName": "Add!" }
+        },
+        {
+          "match": { "instanceGuid": "44444444-4444-4444-4444-444444444444" },
+          "componentState": {
+            "extensions": {
+              "set": {
+                "gh.panel": {
+                  "text": "Result",
+                  "multiline": false,
+                  "wrap": false
+                }
+              }
+            }
+          }
+        }
+      ]
+    },
+    "groups": {
+      "modify": [
+        {
+          "match": { "instanceGuid": "aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa" },
+          "set": { "name": "Inputs" }
+        }
+      ]
+    }
+  }
+}

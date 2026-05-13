@@ -1,0 +1,348 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json",
+  "title": "GhPatch Document",
+  "description": "GhPatch is a JSON-based patch format for GhJSON documents. A patch describes a set of add/remove/modify operations on components, connections, groups, and metadata at the GhJSON-semantic level (not at JSON-pointer level).",
+  "type": "object",
+  "required": ["kind", "patch"],
+  "properties": {
+    "schema": {
+      "type": "string",
+      "description": "The GhJSON schema version this patch targets. Patches are always tied to a specific GhJSON schema version.",
+      "pattern": "^\\d+\\.\\d+(\\.\\d+)?$",
+      "default": "1.0",
+      "examples": ["1.0"]
+    },
+    "kind": {
+      "type": "string",
+      "description": "Discriminator. Must be 'ghpatch' for patch documents.",
+      "const": "ghpatch"
+    },
+    "patch": {
+      "$ref": "#/$defs/patchBody",
+      "description": "The patch operations."
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "patchBody": {
+      "type": "object",
+      "description": "Container for all patch operations. Every section is optional; an empty patch is valid and is a no-op.",
+      "properties": {
+        "base": {
+          "$ref": "#/$defs/baseRef",
+          "description": "Optional reference to the base document this patch was generated against. When present, implementations SHOULD verify the base before applying."
+        },
+        "metadata": {
+          "$ref": "#/$defs/metadataOp",
+          "description": "Operations on document metadata."
+        },
+        "components": {
+          "$ref": "#/$defs/componentsOp",
+          "description": "Operations on components."
+        },
+        "connections": {
+          "$ref": "#/$defs/connectionsOp",
+          "description": "Operations on connections."
+        },
+        "groups": {
+          "$ref": "#/$defs/groupsOp",
+          "description": "Operations on groups."
+        }
+      },
+      "additionalProperties": false
+    },
+    "baseRef": {
+      "type": "object",
+      "description": "Identifies the base document this patch was generated against.",
+      "properties": {
+        "schema": {
+          "type": "string",
+          "description": "Schema version of the base document.",
+          "pattern": "^\\d+\\.\\d+(\\.\\d+)?$"
+        },
+        "checksum": {
+          "type": "string",
+          "description": "Optional content checksum of the normalized base document. Format: '<algorithm>-<hex>', e.g. 'sha256-abc123...'.",
+          "pattern": "^[a-z0-9]+-[A-Za-z0-9+/=]+$"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadataOp": {
+      "type": "object",
+      "description": "Set or remove metadata fields. Metadata is a single object per document, so there is no add/remove of items.",
+      "properties": {
+        "set": {
+          "type": "object",
+          "description": "Metadata fields to set or replace. Values use the same shape as the corresponding field in ghjson.schema.json's documentMetadata."
+        },
+        "remove": {
+          "type": "array",
+          "description": "Metadata field names to remove.",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentsOp": {
+      "type": "object",
+      "description": "Operations on the components array.",
+      "properties": {
+        "add": {
+          "type": "array",
+          "description": "Components to add. Each entry is a full component object as defined in ghjson.schema.json#/$defs/componentData.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "remove": {
+          "type": "array",
+          "description": "Components to remove. Each entry is a componentMatch.",
+          "items": {
+            "$ref": "#/$defs/componentMatch"
+          }
+        },
+        "modify": {
+          "type": "array",
+          "description": "Components to modify in place.",
+          "items": {
+            "$ref": "#/$defs/componentModify"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentMatch": {
+      "type": "object",
+      "description": "Identifies a single component on the base document. Identity precedence is instanceGuid > id > structural fingerprint (componentGuid + name + pivot).",
+      "anyOf": [
+        { "required": ["instanceGuid"] },
+        { "required": ["id"] },
+        { "required": ["componentGuid"] },
+        { "required": ["name"] }
+      ],
+      "properties": {
+        "instanceGuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "componentGuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "name": {
+          "type": "string"
+        },
+        "pivot": {
+          "description": "Optional fingerprint hint when matching by componentGuid + name.",
+          "anyOf": [
+            { "type": "string" },
+            { "type": "object" }
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentModify": {
+      "type": "object",
+      "description": "Modify a single component matched by identity.",
+      "required": ["match"],
+      "properties": {
+        "match": {
+          "$ref": "#/$defs/componentMatch"
+        },
+        "set": {
+          "type": "object",
+          "description": "Top-level scalar/string fields of the component to set. Keys map to the same fields as ghjson.schema.json#/$defs/componentData."
+        },
+        "remove": {
+          "type": "array",
+          "description": "Top-level field names to remove from the component.",
+          "items": {
+            "type": "string"
+          },
+          "uniqueItems": true
+        },
+        "componentState": {
+          "$ref": "#/$defs/componentStateOp",
+          "description": "Operations on the component's componentState."
+        },
+        "inputSettings": {
+          "$ref": "#/$defs/parameterSettingsOp",
+          "description": "Operations on the component's inputSettings list."
+        },
+        "outputSettings": {
+          "$ref": "#/$defs/parameterSettingsOp",
+          "description": "Operations on the component's outputSettings list."
+        }
+      },
+      "additionalProperties": false
+    },
+    "componentStateOp": {
+      "type": "object",
+      "description": "Operations on a component's componentState.",
+      "properties": {
+        "set": {
+          "type": "object",
+          "description": "Top-level componentState fields to set."
+        },
+        "remove": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "extensions": {
+          "$ref": "#/$defs/extensionsOp"
+        }
+      },
+      "additionalProperties": false
+    },
+    "extensionsOp": {
+      "type": "object",
+      "description": "Operations on an extensions container. Each extension value is treated as opaque: the entire object is replaced on set.",
+      "properties": {
+        "set": {
+          "type": "object",
+          "description": "Map of extension key to new extension value object.",
+          "additionalProperties": {
+            "type": "object"
+          }
+        },
+        "remove": {
+          "type": "array",
+          "description": "Extension keys to remove.",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "parameterSettingsOp": {
+      "type": "object",
+      "description": "Operations on an inputSettings or outputSettings list, keyed by parameter name.",
+      "properties": {
+        "byParameterName": {
+          "type": "object",
+          "description": "Map of parameterName to per-parameter operation.",
+          "additionalProperties": {
+            "type": "object",
+            "properties": {
+              "set": {
+                "type": "object",
+                "description": "Parameter settings fields to set."
+              },
+              "remove": {
+                "type": "array",
+                "items": { "type": "string" },
+                "uniqueItems": true
+              }
+            },
+            "additionalProperties": false
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "connectionsOp": {
+      "type": "object",
+      "description": "Operations on the connections array. Connections are identified by their full (from, to) endpoint pair.",
+      "properties": {
+        "add": {
+          "type": "array",
+          "description": "Connections to add. Each entry is a full connection object.",
+          "items": {
+            "type": "object"
+          }
+        },
+        "remove": {
+          "type": "array",
+          "description": "Connections to remove. Each entry is a full connection object identifying the endpoints.",
+          "items": {
+            "type": "object"
+          }
+        }
+      },
+      "additionalProperties": false
+    },
+    "groupsOp": {
+      "type": "object",
+      "description": "Operations on the groups array.",
+      "properties": {
+        "add": {
+          "type": "array",
+          "items": { "type": "object" }
+        },
+        "remove": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/groupMatch" }
+        },
+        "modify": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/groupModify" }
+        }
+      },
+      "additionalProperties": false
+    },
+    "groupMatch": {
+      "type": "object",
+      "description": "Identifies a single group. Identity precedence is instanceGuid > id.",
+      "anyOf": [
+        { "required": ["instanceGuid"] },
+        { "required": ["id"] }
+      ],
+      "properties": {
+        "instanceGuid": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "id": {
+          "type": "integer",
+          "minimum": 1
+        }
+      },
+      "additionalProperties": false
+    },
+    "groupModify": {
+      "type": "object",
+      "required": ["match"],
+      "properties": {
+        "match": { "$ref": "#/$defs/groupMatch" },
+        "set": {
+          "type": "object",
+          "description": "Top-level group fields to set."
+        },
+        "remove": {
+          "type": "array",
+          "items": { "type": "string" },
+          "uniqueItems": true
+        },
+        "members": {
+          "type": "object",
+          "description": "Operations on the group's members list (component integer ids).",
+          "properties": {
+            "add": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 1 },
+              "uniqueItems": true
+            },
+            "remove": {
+              "type": "array",
+              "items": { "type": "integer", "minimum": 1 },
+              "uniqueItems": true
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    }
+  }
+}

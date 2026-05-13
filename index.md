@@ -10,14 +10,17 @@ GhJSON is a JSON-based format for representing [Grasshopper](https://www.grassho
 ## Quick Links
 
 - [Format Specification](docs/specification.md)
+- [GhPatch Specification](docs/ghpatch.md)
 - [JSON Schema v1.0](schema/v1.0/ghjson.schema.json)
+- [GhPatch JSON Schema v1.0](schema/v1.0/ghpatch.schema.json)
 - [Examples](examples/)
 - [GitHub Repository](https://github.com/architects-toolkit/ghjson-spec)
 
-## Schema URL
+## Schema URLs
 
 ```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
+https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 ```
 
 ## Example
