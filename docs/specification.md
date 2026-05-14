@@ -17,6 +17,7 @@
 7. [Component-Specific Formats](#7-component-specific-formats)
 8. [Validation](#8-validation)
 9. [Examples](#9-examples)
+10. [Diff and Patch](#10-diff-and-patch)
 
 ---
 
@@ -733,6 +734,26 @@ When deserializing, implementations MAY additionally verify:
 
 ---
 
+## 10. Diff and Patch
+
+GhJSON has a sibling **patch format** for representing differences between two `.ghjson` documents and for applying partial edits on top of an existing document. The patch format is defined separately to keep the base GhJSON schema small and stable.
+
+- File extension: `.ghpatch`
+- JSON Schema: [`schema/v1.0/ghpatch.schema.json`](../schema/v1.0/ghpatch.schema.json)
+- Full specification: [`docs/ghpatch.md`](ghpatch.md)
+
+Highlights:
+
+- A patch is a JSON document with `kind: "ghpatch"` and a `patch` body containing `metadata`, `components`, `connections`, and `groups` operations.
+- Operations are keyed by **GhJSON identity** (`instanceGuid`, `id`) — not by JSON Pointer or array index. Reordering arrays in the base document does not invalidate a patch.
+- There is no `move` operation. Component/connection/group order in the GhJSON arrays has no semantic meaning.
+- Patches MAY include a base-document checksum so implementations can refuse to apply on a different base.
+- Conflicts are surfaced at apply time as a structured list, not encoded in the patch.
+
+See [`docs/ghpatch.md`](ghpatch.md) for the full operation grammar, identity rules, apply semantics, and conflict taxonomy.
+
+---
+
 ## Appendix A: MIME Type
 
 The recommended MIME type for GhJSON files is:
@@ -746,10 +767,13 @@ application/vnd.grasshopper.ghjson+json
 The GhJSON schema is registered at:
 
 - **GitHub**: https://github.com/architects-toolkit/ghjson-spec
-- **Schema URL**: https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
+- **Schema URLs**:
+  - https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
+  - https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 
 ## Appendix C: Version History
 
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-01-11 | Initial specification |
+| 1.0 (+ ghpatch) | 2026-05-13 | Sibling GhPatch format (see `docs/ghpatch.md`) |

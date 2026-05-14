@@ -83,18 +83,22 @@ ajv validate -s schema/v1.0/ghjson.schema.json -d your-file.ghjson --spec=draft2
 ## Documentation
 
 - [**Format Specification**](docs/specification.md) - Complete format documentation
-- [**JSON Schema**](schema/v1.0/ghjson.schema.json) - Machine-readable schema
+- [**GhPatch Specification**](docs/ghpatch.md) - Sibling patch format for diffing and partial edits
+- [**JSON Schema (ghjson)**](schema/v1.0/ghjson.schema.json) - Machine-readable schema for documents
+- [**JSON Schema (ghpatch)**](schema/v1.0/ghpatch.schema.json) - Machine-readable schema for patches
 
-## File Extension
+## File Extensions
 
-GhJSON files use the `.ghjson` extension.
+- GhJSON documents use the `.ghjson` extension.
+- GhPatch documents (diffs and partial edits) use the `.ghpatch` extension.
 
-## Schema URL
+## Schema URLs
 
-The canonical JSON Schema is available at:
+The canonical JSON Schemas are available at:
 
 ```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
+https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 ```
 
 ## Contributing
