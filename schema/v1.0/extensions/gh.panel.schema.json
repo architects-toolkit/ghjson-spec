@@ -26,7 +26,8 @@
       "description": "Panel color as ARGB format (argb:0-255,0-255,0-255,0-255)"
     },
     "bounds": {
-      "type": "array",
+      "type": "string",
+      "pattern": "^\\d+x\\d+$",
       "description": "Panel bounds as WxH (width x height)",
       "examples": ["50x40"]
     },
