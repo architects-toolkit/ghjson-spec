@@ -12,7 +12,7 @@ Welcome to the GhJSON specification documentation.
 
 ## What is GhJSON?
 
-GhJSON is a JSON-based format for representing Grasshopper definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents.
+GhJSON is a JSON-based format for representing Grasshopper definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents. GhJSON files use the `.ghjson` extension.
 
 GhJSON also has a sibling **[GhPatch](ghpatch.md)** format for representing diffs and partial edits on GhJSON documents. GhPatch files use the `.ghpatch` extension.
 
@@ -76,4 +76,4 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 | Version | Date | Description |
 | ------- | ---- | ----------- |
 | 1.0 | 2026-01-11 | Initial specification |
-| 1.0 (+ ghpatch) | 2026-05-13 | Sibling GhPatch format (see `docs/ghpatch.md`) |
+| 1.0 | 2026-05-13 | Added GhPatch format (see `docs/ghpatch.md`) |

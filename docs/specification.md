@@ -776,4 +776,4 @@ The GhJSON schema is registered at:
 | Version | Date | Changes |
 |---------|------|---------|
 | 1.0 | 2026-01-11 | Initial specification |
-| 1.0 (+ ghpatch) | 2026-05-13 | Sibling GhPatch format (see `docs/ghpatch.md`) |
+| 1.0 | 2026-05-13 | Added GhPatch format (see `docs/ghpatch.md`) |
