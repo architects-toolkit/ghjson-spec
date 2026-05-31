@@ -112,11 +112,12 @@ Contributions are welcome! Please read our contributing guidelines before submit
 3. Make your changes
 4. Submit a pull request
 
-## Useful Tools to Implement GhJSON
+## Useful Tools to Work on GhJSON
 
 | Language | Package | Status |
 | -------- | ------- | ------ |
 | .NET | [ghjson-dotnet](https://github.com/architects-toolkit/ghjson-dotnet) | In Development |
+| Web validator | ghjson-web | Planned |
 | Python | ghjson-python | Planned |
 | PowerShell | ghjson-powershell | Planned |
 
