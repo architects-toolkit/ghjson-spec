@@ -70,10 +70,3 @@ Validate your GhJSON files against the official schemas:
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 ```
-
-## Version History
-
-| Version | Date | Description |
-| ------- | ---- | ----------- |
-| 1.0 | 2026-01-11 | Initial specification |
-| 1.0 | 2026-05-13 | Added GhPatch format (see `docs/ghpatch.md`) |
