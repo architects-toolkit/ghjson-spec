@@ -5,12 +5,16 @@ Welcome to the GhJSON specification documentation.
 ## Contents
 
 - [**Format Specification**](specification.md) - Complete format reference
+- [**GhPatch Specification**](ghpatch.md) - Sibling patch format for diffing and partial edits
 - [**Extensions**](extensions.md) - How to extend GhJSON safely and publish extensions
-- [**JSON Schema**](../schema/v1.0/ghjson.schema.json) - Machine-readable validation schema
+- [**JSON Schema (ghjson)**](../schema/v1.0/ghjson.schema.json) - Machine-readable schema for documents
+- [**JSON Schema (ghpatch)**](../schema/v1.0/ghpatch.schema.json) - Machine-readable schema for patches
 
 ## What is GhJSON?
 
 GhJSON is a JSON-based format for representing Grasshopper definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents.
+
+GhJSON also has a sibling **[GhPatch](ghpatch.md)** format for representing diffs and partial edits on GhJSON documents. GhPatch files use the `.ghpatch` extension.
 
 ### Key Features
 
@@ -60,10 +64,11 @@ GhJSON is a JSON-based format for representing Grasshopper definitions. It provi
 
 ## Schema Validation
 
-Validate your GhJSON files against the official schema:
+Validate your GhJSON files against the official schemas:
 
 ```text
 https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
+https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 ```
 
 ## Version History
@@ -71,3 +76,4 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghjson.schema.json
 | Version | Date | Description |
 | ------- | ---- | ----------- |
 | 1.0 | 2026-01-11 | Initial specification |
+| 1.0 (+ ghpatch) | 2026-05-13 | Sibling GhPatch format (see `docs/ghpatch.md`) |

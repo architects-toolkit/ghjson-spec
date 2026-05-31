@@ -5,7 +5,16 @@ title: Home
 
 ## GhJSON Specification
 
-GhJSON is a JSON-based format for representing [Grasshopper](https://www.grasshopper3d.com/) definitions.
+GhJSON is a JSON-based format for representing [Grasshopper](https://www.grasshopper3d.com/) definitions. It provides a human-readable, portable way to serialize and deserialize Grasshopper documents.
+
+### GhPatch
+
+GhJSON also defines a sibling **GhPatch** format for representing diffs and partial edits on GhJSON documents.
+
+### File Extensions
+
+- GhJSON documents use the `.ghjson` extension.
+- GhPatch documents (diffs and partial edits) use the `.ghpatch` extension.
 
 ## Quick Links
 
@@ -51,4 +60,5 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 | Language | Package | Status |
 | -------- | ------- | ------ |
 | .NET | [ghjson-dotnet](https://github.com/architects-toolkit/ghjson-dotnet) | In Development |
-| Web | [ghjson-web](https://github.com/architects-toolkit/ghjson-web) | Planned |
+| Python | ghjson-python | Planned |
+| PowerShell | ghjson-powershell | Planned |
