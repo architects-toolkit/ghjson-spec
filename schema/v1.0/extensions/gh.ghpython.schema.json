@@ -27,7 +27,7 @@
         },
         "dataMapping": {
           "type": "string",
-          "enum": ["None", "Flatten", "Graft"],
+          "enum": ["none", "flatten", "graft"],
           "description": "Data mapping mode for output"
         },
         "expression": {
