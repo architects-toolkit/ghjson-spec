@@ -128,7 +128,9 @@
       "properties": {
         "instanceGuid": {
           "type": "string",
-          "format": "uuid"
+          "format": "uuid",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "description": "Must be a non-empty UUID."
         },
         "id": {
           "type": "integer",
@@ -136,7 +138,9 @@
         },
         "componentGuid": {
           "type": "string",
-          "format": "uuid"
+          "format": "uuid",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "description": "Must be a non-empty UUID."
         },
         "name": {
           "type": "string"
@@ -251,6 +255,22 @@
       },
       "additionalProperties": false
     },
+    "connection": {
+      "type": "object",
+      "description": "A connection between two component parameters.",
+      "required": ["from", "to"],
+      "properties": {
+        "from": {
+          "type": "object",
+          "description": "Source endpoint of the connection."
+        },
+        "to": {
+          "type": "object",
+          "description": "Target endpoint of the connection."
+        }
+      },
+      "additionalProperties": false
+    },
     "connectionsOp": {
       "type": "object",
       "description": "Operations on the connections array. Connections are identified by their full (from, to) endpoint pair.",
@@ -259,14 +279,14 @@
           "type": "array",
           "description": "Connections to add. Each entry is a full connection object.",
           "items": {
-            "type": "object"
+            "$ref": "#/$defs/connection"
           }
         },
         "remove": {
           "type": "array",
           "description": "Connections to remove. Each entry is a full connection object identifying the endpoints.",
           "items": {
-            "type": "object"
+            "$ref": "#/$defs/connection"
           }
         }
       },
@@ -301,7 +321,9 @@
       "properties": {
         "instanceGuid": {
           "type": "string",
-          "format": "uuid"
+          "format": "uuid",
+          "not": { "const": "00000000-0000-0000-0000-000000000000" },
+          "description": "Must be a non-empty UUID."
         },
         "id": {
           "type": "integer",
