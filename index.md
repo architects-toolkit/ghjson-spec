@@ -60,5 +60,6 @@ https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/ghpatch.schema.json
 | Language | Package | Status |
 | -------- | ------- | ------ |
 | .NET | [ghjson-dotnet](https://github.com/architects-toolkit/ghjson-dotnet) | In Development |
+| Web | [ghjson-web](https://github.com/architects-toolkit/ghjson-web) | Planned |
 | Python | ghjson-python | Planned |
 | PowerShell | ghjson-powershell | Planned |
