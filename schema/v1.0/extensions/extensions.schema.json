@@ -40,6 +40,9 @@
     },
     "gh.vbscript": {
       "$ref": "./gh.vbscript.schema.json"
+    },
+    "smarthopper.state": {
+      "$ref": "./smarthopper.state.schema.json"
     }
   },
   "additionalProperties": {
