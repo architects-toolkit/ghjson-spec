@@ -2,12 +2,20 @@
   "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/smarthopper.state.schema.json",
   "title": "GhJSON Extension: smarthopper.state (v1.0)",
-  "description": "Extension for SmartHopper IProviderComponent state. Captures the selected AI provider name.",
+  "description": "Extension for SmartHopper component state. Captures selected AI provider name and canvas selections.",
   "type": "object",
   "properties": {
     "selectedProviderName": {
       "type": "string",
       "description": "Name of the selected AI provider (e.g. 'OpenAI', 'MistralAI'). Omit or use 'Default' to use the global default provider."
+    },
+    "selectedObjects": {
+      "type": "array",
+      "description": "Component integer IDs of objects selected on the canvas by this component.",
+      "items": {
+        "type": "integer",
+        "description": "GhJSON component id"
+      }
     }
   },
   "additionalProperties": false
