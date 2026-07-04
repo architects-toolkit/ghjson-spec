@@ -146,10 +146,30 @@
           "type": "string"
         },
         "pivot": {
-          "description": "Optional fingerprint hint when matching by componentGuid + name.",
+          "description": "Optional fingerprint hint when matching by componentGuid + name. Integer canvas coordinates.",
           "anyOf": [
-            { "type": "string" },
-            { "type": "object" }
+            {
+              "type": "string",
+              "description": "Compact format: 'X,Y' where X and Y are integers.",
+              "pattern": "^-?\\d+,-?\\d+$",
+              "examples": ["100,200", "-50,300"]
+            },
+            {
+              "type": "object",
+              "description": "Object format with explicit x and y integer properties.",
+              "required": ["x", "y"],
+              "properties": {
+                "x": {
+                  "type": "integer",
+                  "description": "The X coordinate on the canvas."
+                },
+                "y": {
+                  "type": "integer",
+                  "description": "The Y coordinate on the canvas."
+                }
+              },
+              "additionalProperties": false
+            }
           ]
         }
       },

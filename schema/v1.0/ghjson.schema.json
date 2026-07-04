@@ -215,21 +215,21 @@
           "anyOf": [
             {
               "type": "string",
-              "description": "Compact format: 'X,Y' where X and Y are floating-point numbers.",
-              "pattern": "^-?\\d+(\\.\\d+)?,-?\\d+(\\.\\d+)?$",
-              "examples": ["100,200", "-50.5,300.25"]
+              "description": "Compact format: 'X,Y' where X and Y are integers.",
+              "pattern": "^-?\\d+,-?\\d+$",
+              "examples": ["100,200", "-50,300"]
             },
             {
               "type": "object",
-              "description": "Object format with explicit x and y properties.",
+              "description": "Object format with explicit x and y integer properties.",
               "required": ["x", "y"],
               "properties": {
                 "x": {
-                  "type": "number",
+                  "type": "integer",
                   "description": "The X coordinate on the canvas."
                 },
                 "y": {
-                  "type": "number",
+                  "type": "integer",
                   "description": "The Y coordinate on the canvas."
                 }
               },
