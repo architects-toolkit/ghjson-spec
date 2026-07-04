@@ -67,7 +67,7 @@ A GhJSON document is a JSON object with the following top-level structure:
 ### 2.1 Properties
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `schema` | string | No | GhJSON schema version (default: "1.0") |
 | `metadata` | object | No | Document metadata |
 | `components` | array | **Yes** | List of components |
@@ -97,7 +97,7 @@ The `metadata` object contains information about the document:
 ```
 
 | Property | Type | Description |
-|----------|------|-------------|
+| ---------- | ------ | ------------- |
 | `description` | string | Description of the definition |
 | `author` | string | Author name |
 | `version` | string | Definition version |
@@ -137,7 +137,7 @@ Components are the core elements of a GhJSON document. Each component represents
 ### 3.2 Component Properties
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `name` | string | Conditional | Display name of the component |
 | `library` | string | No | Component library/category |
 | `nickName` | string | No | Custom nickname |
@@ -231,7 +231,7 @@ Connections represent the wires between component parameters.
 ### 4.2 Connection Properties
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `from` | endpoint | **Yes** | Source endpoint (output) |
 | `to` | endpoint | **Yes** | Target endpoint (input) |
 | `boundary` | boolean | No | When `true`, one or both endpoints reference components not present in this document (e.g. because of pagination) |
@@ -239,7 +239,7 @@ Connections represent the wires between component parameters.
 ### 4.3 Endpoint Properties
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `id` | integer | **Yes** | Component integer ID |
 | `paramName` | string | Conditional | Parameter name (required if `paramIndex` is not provided) |
 | `paramIndex` | integer | Conditional | Zero-based parameter index (required if `paramName` is not provided) |
@@ -271,7 +271,7 @@ Groups organize components visually on the canvas.
 ### 5.2 Group Properties
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `instanceGuid` | uuid | Conditional | Group instance GUID (required if `id` is not provided; both may be present) |
 | `id` | integer | Conditional | Group integer ID (required if `instanceGuid` is not provided; both may be present) |
 | `name` | string | No | Group name/nickname |
@@ -287,7 +287,7 @@ GhJSON uses prefixed string formats for geometric and special data types.
 ### 6.1 Basic Types
 
 | Type | Format | Example |
-|------|--------|---------|
+| ------ | -------- | --------- |
 | Text | `text:value` | `"text:Hello World"` |
 | Number | `number:value` | `"number:3.14159"` |
 | Integer | `integer:value` | `"integer:42"` |
@@ -296,7 +296,7 @@ GhJSON uses prefixed string formats for geometric and special data types.
 ### 6.2 Geometric Types
 
 | Type | Format | Example |
-|------|--------|---------|
+| ------ | -------- | --------- |
 | Point | `pointXYZ:x,y,z` | `"pointXYZ:1,2,3"` |
 | Vector | `vectorXYZ:x,y,z` | `"vectorXYZ:0,0,1"` |
 | Line | `line2p:x1,y1,z1;x2,y2,z2` | `"line2p:0,0,0;1,0,0"` |
@@ -432,7 +432,7 @@ Script components (C#, Python 3, IronPython 2) store their code and configuratio
 **Extension properties:**
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `code` | string | **Yes** | Script source code |
 | `showStandardOutput` | boolean | No | Whether to show the "out" parameter (default: true) |
 | `avoidMarshalGuids` | boolean | No | "Avoid Marshalling Output Guids" — `true` when enabled (default: `false`) |
@@ -445,7 +445,7 @@ Script components (C#, Python 3, IronPython 2) store their code and configuratio
 The `outModifiers` object captures modifiers for the "out" standard output parameter:
 
 | Property | Type | Description |
-|----------|------|-------------|
+| ---------- | ------ | ------------- |
 | `isSimplified` | boolean | Simplify output data tree |
 | `isReversed` | boolean | Reverse output data tree |
 | `dataMapping` | string | Data mapping mode: `"None"`, `"Flatten"`, or `"Graft"` |
@@ -527,7 +527,7 @@ Unlike Rhino 8 script components (C#, Python 3, IronPython 2) which implement `I
 **Extension properties:**
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `code` | string | **Yes** | Python (IronPython) script code |
 | `showStandardOutput` | boolean | No | Whether the `out` standard output parameter is visible (default: true) |
 | `outModifiers` | object | No | Modifiers for the `out` parameter (same shape as section 7.4) |
@@ -560,7 +560,7 @@ Scribble geometry is defined by three corner offsets relative to the component p
 ```
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `text` | string | **Yes** | Scribble text content |
 | `corners` | array of 3 strings | **Yes** | Corner offsets relative to pivot as `"x,y"` pairs: `[A, B, D]`. Corner C = B + D − A. |
 | `fontFamily` | string | No | Font family name (default: system default) |
