@@ -112,6 +112,28 @@
           "description": "Total number of groups in the document.",
           "minimum": 0
         },
+        "pagination": {
+          "type": "object",
+          "description": "Pagination information when the document contains only a subset of components.",
+          "properties": {
+            "page": {
+              "type": "integer",
+              "description": "One-based page index.",
+              "minimum": 1
+            },
+            "pageSize": {
+              "type": "integer",
+              "description": "Number of components per page.",
+              "minimum": 1
+            },
+            "totalPages": {
+              "type": "integer",
+              "description": "Total number of pages available.",
+              "minimum": 1
+            }
+          },
+          "additionalProperties": false
+        },
         "generatorName": {
           "type": "string",
           "description": "Name of the tool that generated this GhJSON file."
@@ -384,6 +406,10 @@
         "to": {
           "$ref": "#/$defs/connectionEndpoint",
           "description": "The target endpoint (input parameter)."
+        },
+        "boundary": {
+          "type": "boolean",
+          "description": "When true, one or both endpoints reference components that are not present in this document (e.g. because of pagination)."
         }
       },
       "additionalProperties": false

@@ -106,9 +106,10 @@ The `metadata` object contains information about the document:
 | `rhinoVersion` | string | Target Rhino version |
 | `grasshopperVersion` | string | Target Grasshopper version |
 | `dependencies` | string[] | Required plugin dependencies |
-| `componentCount` | integer | Total component count |
+| `componentCount` | integer | Total component count. For paginated documents this is the total across all pages. |
 | `connectionCount` | integer | Total connection count |
 | `groupCount` | integer | Total group count |
+| `pagination` | object | Pagination information when the document contains only a subset of components and spans more than one page (see [Pagination](#84-pagination)) |
 
 ---
 
@@ -190,7 +191,7 @@ The optional `inputSettings` and `outputSettings` arrays configure a component's
 Each item is a **Parameter Settings** object:
 
 | Property | Type | Required | Description |
-|----------|------|----------|-------------|
+| ---------- | ------ | ---------- | ------------- |
 | `parameterName` | string | **Yes** | The parameter name |
 | `nickName` | string | No | Custom nickname |
 | `variableName` | string | No | Script parameter variable name |
@@ -233,6 +234,7 @@ Connections represent the wires between component parameters.
 |----------|------|----------|-------------|
 | `from` | endpoint | **Yes** | Source endpoint (output) |
 | `to` | endpoint | **Yes** | Target endpoint (input) |
+| `boundary` | boolean | No | When `true`, one or both endpoints reference components not present in this document (e.g. because of pagination) |
 
 ### 4.3 Endpoint Properties
 
@@ -592,6 +594,35 @@ When deserializing, implementations MAY additionally verify:
 1. **Component existence**: The `componentGuid` or `name` matches an installed component
 2. **Type compatibility**: Connected parameter types are compatible
 3. **Plugin dependencies**: Required plugins are installed
+
+### 8.4 Pagination
+
+GhJSON documents MAY represent a single page of a larger definition. When paginated, the document contains only a subset of components, but it SHOULD keep all connections that touch those components and mark cross-page connections with `boundary: true`.
+
+Paginated documents that span more than one page MUST include `metadata.pagination`:
+
+```json
+{
+  "metadata": {
+    "componentCount": 118,
+    "pagination": {
+      "page": 1,
+      "pageSize": 25,
+      "totalPages": 5
+    }
+  }
+}
+```
+
+| Property | Type | Description |
+| ---------- | ------ | ------------- |
+| `page` | integer | One-based page index |
+| `pageSize` | integer | Number of components per page |
+| `totalPages` | integer | Total number of pages available |
+
+The `metadata.componentCount` field contains the total number of components across all pages. The number of components actually present in the document is the length of the `components` array. Pagination metadata is omitted when the document fits in a single page.
+
+When placing a paginated document on a canvas, implementations SHOULD preserve internal connections and inform the user when a boundary connection cannot be created because its other endpoint is not present in the document.
 
 ---
 
