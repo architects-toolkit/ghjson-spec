@@ -146,7 +146,7 @@ For `components.add`, the new component's `id` MAY collide with an existing comp
 - Any subsequent operation in the same patch that references the new component by its original `id` (e.g. a `connections.add` from a freshly-added component) MUST be rewritten to use the allocated id.
 - The implementation MUST report the remapping in its result.
 
-`instanceGuid` collisions in `components.add` MUST be reported as a conflict.
+`components.add` and `groups.add` entries MUST NOT specify `instanceGuid`. Implementations MUST reject such patches at validation time; the `instanceGuid` is generated when the component or group is placed on the canvas.
 
 ---
 
@@ -180,7 +180,7 @@ For `components.add`, the new component's `id` MAY collide with an existing comp
 
 #### 4.2.1 `add`
 
-Each entry is a full component object as defined in `ghjson.schema.json#/$defs/componentData`. Identity fields (`id`, `instanceGuid`) SHOULD be present.
+Each entry is a full component object as defined in `ghjson.schema.json#/$defs/componentData`, but MUST NOT include `instanceGuid`. The identity fields that SHOULD be present are the type identity (`name` and/or `componentGuid`) and an `id` for cross-reference by connections and groups; the `instanceGuid` is generated on placement.
 
 #### 4.2.2 `remove`
 
@@ -248,6 +248,8 @@ Connections are immutable in this format: there is no `modify`. To change a conn
 
 `members.add` / `members.remove` operate on the group's `members` integer-id list. Members SHOULD reference components that exist on the base (or are being added in the same patch); references that resolve to neither SHOULD be reported as conflicts and dropped from the resulting document.
 
+`groups.add` entries MUST NOT specify `instanceGuid`; the `instanceGuid` is generated on placement.
+
 ---
 
 ## 5. Apply Semantics
@@ -286,7 +288,7 @@ A conflict is any situation where the patch cannot be applied unambiguously:
 |------|---------|
 | `match_not_found` | A `modify`/`remove` references a component that is not on the base. |
 | `match_ambiguous` | A `match` block matches more than one base component. |
-| `instance_guid_collision` | A `components.add` has the same `instanceGuid` as an existing component. |
+| `id_collision` | A `components.add` has the same `id` as an existing component and id renumbering is disabled. |
 | `connection_already_present` | A `connections.add` duplicates an existing connection. |
 | `connection_not_found` | A `connections.remove` targets a connection that does not exist. |
 | `dangling_member` | A `groups.modify.members.add` references a component that does not exist. |
@@ -325,7 +327,7 @@ The following patch, applied to a base document containing a Number Slider (id 1
       "add": [
         {
           "name": "Panel",
-          "instanceGuid": "33333333-3333-3333-3333-333333333333",
+          "componentGuid": "59e0b89a-e487-49f8-bab8-b5bab16be14c",
           "id": 3,
           "pivot": "500,100"
         }
