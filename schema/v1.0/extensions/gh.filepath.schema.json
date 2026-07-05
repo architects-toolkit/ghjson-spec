@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://architects-toolkit.github.io/ghjson-spec/schema/v1.0/extensions/gh.filepath.schema.json",
+  "title": "GhJSON Extension: gh.filepath (v1.0)",
+  "description": "Extension for the Grasshopper File Path floating parameter. Captures the file filter and behaviour flags so the component can be restored without relying on generic reflection-based state.",
+  "type": "object",
+  "properties": {
+    "fileFilter": {
+      "type": "string",
+      "description": "File picker filter string, e.g. 'All files|*.*' or 'JSON files|*.json'."
+    },
+    "expireOnFileEvent": {
+      "type": "boolean",
+      "description": "When true, the component expires its solution when the referenced file changes on disk."
+    }
+  },
+  "additionalProperties": false
+}
