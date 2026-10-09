@@ -11,7 +11,7 @@
     },
     "multiline": {
       "type": "boolean",
-      "description": "Whether text is multiline"
+      "description": "Maps to the panel's \"Multiline Data\" property. When true, the entire text is emitted as a single item; when false (the default), each line of text is emitted as a separate item."
     },
     "wrap": {
       "type": "boolean",

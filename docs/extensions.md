@@ -120,6 +120,17 @@ All examples below live under `components[].componentState.extensions`.
 }
 ```
 
+Panel data semantics (matching `GH_Panel`):
+
+- `multiline` maps to the panel's *Multiline Data* property: when `true`, the
+  whole `text` is emitted downstream as **one** item; when `false` (the
+  default), each line of `text` is emitted as a **separate** item.
+- Panels have no persistent parameter store. An `internalizedData` (or
+  `runtimeData`) tree on the panel's `outputSettings` maps to newline-separated
+  `text` — one line per item — with `multiline: false` so the items emit
+  individually. When the `gh.panel` extension also specifies `text` or
+  `multiline`, the extension values win.
+
 ### 5.2 `gh.scribble`
 
 Corners A, B, D are stored as offsets relative to the component pivot. Corner C is derived as `B + D - A` (parallelogram rule). See [specification §7.7](specification.md#77-scribble) for details.
