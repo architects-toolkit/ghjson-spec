@@ -26,7 +26,7 @@
     },
     "connections": {
       "type": "array",
-      "description": "List of all connections (wires) between component parameters.",
+      "description": "List of all connections (wires) between component parameters. Endpoints reference components declared in this document by their id values.",
       "items": {
         "$ref": "#/$defs/connectionData"
       }
@@ -203,7 +203,7 @@
         "instanceGuid": {
           "type": "string",
           "format": "uuid",
-          "description": "The unique identifier for this specific component instance."
+          "description": "The unique identifier for this specific component instance. When placing a document, an instanceGuid matching an existing canvas object identifies the object to update in place rather than duplicate."
         },
         "id": {
           "type": "integer",
@@ -428,7 +428,7 @@
       "properties": {
         "id": {
           "type": "integer",
-          "description": "The integer ID of the component.",
+          "description": "The integer ID of the component. References a component declared in this document's components array.",
           "minimum": 1
         },
         "paramName": {

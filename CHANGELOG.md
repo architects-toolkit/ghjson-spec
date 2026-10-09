@@ -26,3 +26,5 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
   - Added `componentAdd` and `groupAdd` schema definitions that reference `ghjson.schema.json` definitions while forbidding `instanceGuid`.
   - Validation must reject any `.ghpatch` that includes `instanceGuid` in an `add` operation.
   - The `instance_guid_collision` apply conflict has been replaced by `id_collision` for the case where an added component id collides with an existing component and id renumbering is disabled.
+- Clarified `instanceGuid` placement semantics: a component whose `instanceGuid` matches an existing canvas object updates that object in place (preserving identity, position, and wiring) instead of producing a duplicate; to place a copy, omit `instanceGuid`.
+- Clarified that `connections` are document-scoped: endpoints reference components declared in the same document by `id`; wiring to pre-existing canvas objects requires a separate mechanism (e.g. a connect operation keyed by `instanceGuid`).
