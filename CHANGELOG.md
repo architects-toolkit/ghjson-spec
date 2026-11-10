@@ -6,6 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/).
 
 ## [Unreleased]
 
+### Changed
+
+- Connection endpoint `id` now accepts an `instanceGuid` string as an alternative to the integer `id` for canvas-bound references (§4.3/§4.4): the integer `id` remains the preferred, compact shape and producers should emit it whenever the target is declared in the same document. Integers encoded as strings are coerced during parsing.
+
 ### Added
 
 - Initial GhJSON format specification.

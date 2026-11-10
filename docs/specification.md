@@ -247,7 +247,7 @@ Connections represent the wires between component parameters.
 
 | Property | Type | Required | Description |
 | ---------- | ------ | ---------- | ------------- |
-| `id` | integer | **Yes** | Component integer ID |
+| `id` | integer or string | **Yes** | Component reference — the integer `id` is the preferred shape (compact and unambiguous). A component's `instanceGuid` string is also accepted for canvas-bound references (see §4.4); an integer encoded as a string is coerced during parsing. |
 | `paramName` | string | Conditional | Parameter name (required if `paramIndex` is not provided) |
 | `paramIndex` | integer | Conditional | Zero-based parameter index (required if `paramName` is not provided) |
 
@@ -256,6 +256,8 @@ The `paramIndex` provides reliable parameter matching when parameter names may v
 ### 4.4 Document Scope
 
 Connection endpoints are document-scoped: endpoint `id` values only reference components declared in the same document's `components` array. A connection cannot wire an endpoint to an object that exists only on the canvas unless that object is also described in the document (typically as an unchanged component carrying its `instanceGuid`). Implementations that need to wire pre-existing canvas objects MUST use a separate mechanism (for example, a dedicated connect operation keyed by `instanceGuid`).
+
+When an endpoint needs a stable reference across documents — for instance to a component that carries an `instanceGuid` — the `instanceGuid` string MAY be used in place of the integer `id`. The integer `id` remains the preferred shape: it is shorter and unambiguous within the document. Producers SHOULD emit integer `id` whenever the target is declared in the same document.
 
 ---
 
