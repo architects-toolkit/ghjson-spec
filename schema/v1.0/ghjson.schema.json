@@ -427,8 +427,8 @@
       ],
       "properties": {
         "id": {
-          "type": "integer",
-          "description": "The integer ID of the component. References a component declared in this document's components array.",
+          "type": ["integer", "string"],
+          "description": "Component reference: the integer id is the preferred shape (compact, unambiguous). An instanceGuid string is also accepted for canvas-bound references; an integer encoded as a string is coerced during parsing.",
           "minimum": 1
         },
         "paramName": {
