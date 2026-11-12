@@ -234,6 +234,14 @@
                 }
               },
               "additionalProperties": false
+            },
+            {
+              "type": "array",
+              "description": "Tuple format: [X, Y] as a two-element numeric array. Accepted for producer convenience (notably LLM emitters); consumers MAY normalize to another accepted form.",
+              "items": { "type": "number" },
+              "minItems": 2,
+              "maxItems": 2,
+              "examples": [[100, 200], [100.5, 200.25]]
             }
           ]
         },
