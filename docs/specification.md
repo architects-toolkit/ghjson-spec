@@ -228,15 +228,19 @@ Producers MUST NOT invent top-level component properties for component state.
 All component-specific state lives under `componentState.extensions` (for
 example, a Panel's text is `componentState.extensions["gh.panel"].text` — not a
 hypothetical top-level `userText`/`text`/`content` field). Emitting state as
-new top-level properties is the most common generator mistake: consumers MUST
-ignore unrecognized members for forward compatibility but SHOULD report them
-as warnings so producers can learn the correct field names.
+new top-level properties is the most common generator mistake.
 
-The same rule applies at every level of the document: unknown members under
-`componentState`, `extensions`, connections, endpoints, and groups are ignored,
-never error — but a validator or deserializer SHOULD surface them, because a
-silently dropped field looks identical to a successfully applied one from the
-producer's side.
+The schema is strict at every level of the document (`additionalProperties:
+false` on components, connections, endpoints, groups, and similar closed
+objects): unrecognized members make the document **fail validation**, and a
+validator MUST surface the offending member path in the error. A loudly
+rejected field is intentional — a silently dropped field looks identical to a
+successfully applied one from the producer's side, so producers learn the
+correct field names from explicit rejection.
+
+Implementations that deserialize a document **without** validating it SHOULD
+still preserve unrecognized members for round-trip fidelity rather than
+silently discarding them, and SHOULD report them as warnings to the caller.
 
 ---
 
