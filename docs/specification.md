@@ -142,7 +142,7 @@ Components are the core elements of a GhJSON document. Each component represents
 | `componentGuid` | uuid | No | Component type GUID |
 | `instanceGuid` | uuid | No | Instance GUID |
 | `id` | integer | Conditional | Integer ID for references (required when referenced by connections/groups) |
-| `pivot` | string or object | No | Canvas position (string: "X,Y" or object: `{ "x": 100, "y": 200 }`) |
+| `pivot` | string, object, or array | No | Canvas position (string: `"X,Y"`, object: `{ "x": 100, "y": 200 }`, or array: `[100, 200]`) |
 | `inputSettings` | array | No | Input parameter settings |
 | `outputSettings` | array | No | Output parameter settings |
 | `componentState` | object | No | UI-specific state |
@@ -160,6 +160,12 @@ Or an explicit object format:
 ```json
 "pivot": { "x": 100.5, "y": 200.25 }
 ```
+Or a two-element array format:
+```json
+"pivot": [100.5, 200.25]
+```
+
+All three forms are equivalent; consumers MAY normalize them to a single internal representation. The array form exists for producer convenience — JSON emitters (notably language models) naturally produce `[x, y]` tuples — but documents SHOULD prefer the compact string or object form for readability.
 
 ### 3.4 Component Identification
 
@@ -215,6 +221,22 @@ differently. For a `Panel`, `internalizedData`/`runtimeData` items map to
 newline-separated panel text — one line per item — emitted as individual items
 (the `gh.panel` extension remains the canonical representation; see
 [extensions.md](extensions.md#51-ghpanel)).
+
+### 3.7 Unrecognized Properties and Component State
+
+Producers MUST NOT invent top-level component properties for component state.
+All component-specific state lives under `componentState.extensions` (for
+example, a Panel's text is `componentState.extensions["gh.panel"].text` — not a
+hypothetical top-level `userText`/`text`/`content` field). Emitting state as
+new top-level properties is the most common generator mistake: consumers MUST
+ignore unrecognized members for forward compatibility but SHOULD report them
+as warnings so producers can learn the correct field names.
+
+The same rule applies at every level of the document: unknown members under
+`componentState`, `extensions`, connections, endpoints, and groups are ignored,
+never error — but a validator or deserializer SHOULD surface them, because a
+silently dropped field looks identical to a successfully applied one from the
+producer's side.
 
 ---
 
@@ -598,6 +620,13 @@ Beyond schema validation, implementations SHOULD verify:
 2. **Valid references**: All connection endpoint `id` values reference existing components
 3. **Valid parameter names**: Connection `paramName` values exist on referenced components
 4. **Group membership**: All group `members` reference existing component IDs
+
+When placement or deserialization partially fails, implementations SHOULD
+report per-item failures — identifying which connection or component failed and
+which endpoint, parameter, or reference could not be resolved — rather than
+returning only aggregate accepted/rejected counts. A connection whose `from`
+resolves but whose `to` does not is diagnosable only if the failing endpoint is
+named in the error.
 
 ### 8.3 Grasshopper Validation
 
