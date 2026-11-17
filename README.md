@@ -90,6 +90,7 @@ ajv validate -s schema/v1.0/ghjson.schema.json -d your-file.ghjson --spec=draft2
 | [**ghjson-dotnet**](https://github.com/architects-toolkit/ghjson-dotnet) | Official .NET SDK (`GhJSON.Core` & `GhJSON.Grasshopper` on NuGet) for reading, writing, validating, diffing, and placing GhJSON | Stable |
 | [**ghjson-graph**](https://github.com/architects-toolkit/ghjson-graph) | Zero-dependency TypeScript library for parsing GhJSON documents into dependency graphs — stats, validation, and SVG topology thumbnails | Active |
 | [**SmartHopper**](https://github.com/architects-toolkit/SmartHopper) | Open-source AI assistant and component suite for Grasshopper 3D powered by GhJSON | Active |
+| [**Dwight**](https://dwight.tha.run/) | Grasshopper plugin adding five AI canvas tools (Explain, Diagnose, Reorganise, Simplify, Build) that reads and edits definitions via GhJSON | Active |
 | **ghjson-web** | Browser-based viewer and validator | Planned |
 | **ghjson-python** | Python library for `.ghjson` / `.ghpatch` manipulation | Planned |
 
